@@ -1,0 +1,45 @@
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_dekam_accessory_tree" model="ir.ui.view">
+            <field name="name">dekam.accessory.tree</field>
+            <field name="model">dekam.accessory</field>
+            <field name="arch" type="xml">
+                <tree string="Accesorios">
+                    <field name="name" string="Nombre"/>
+                    <field name="costPrice" string="Precio de Costo"/>
+                    <field name="placementTime" string="Tiempo de Colocación (hs)"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_dekam_accessory_form" model="ir.ui.view">
+            <field name="name">dekam.accessory.form</field>
+            <field name="model">dekam.accessory</field>
+            <field name="arch" type="xml">
+                <form string="Accesorios">
+                    <sheet>
+                        <group>
+                            <field name="name" string="Nombre"/>
+                        </group>
+                        <group>
+                            <field name="costPrice" string="Precio de Costo"/>
+                            <field name="placementTime" string="Tiempo de Colocación (hs)"/>
+                        </group>
+                        <group string="Proveedores">
+                            <field name="urls" widget="many2many_tags" string="URLs Proveedores"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="dekam_accessory_action" model="ir.actions.act_window">
+            <field name="name">Accesorios</field>
+            <field name="res_model">dekam.accessory</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

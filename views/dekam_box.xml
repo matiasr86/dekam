@@ -1,0 +1,38 @@
+<odoo>
+	<data>
+		<record id="view_dekam_box_tree" model="ir.ui.view">
+			<field name="name">dekam.box.tree</field>
+			<field name="model">dekam.box</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" string="Detalle"/>
+					<field name="high" string="Altura de Cajón(mm)"/>
+					<field name="working_hours" string="Horas de Trabajo"/>
+				</tree>
+			</field>
+    	</record>
+
+		<record id="view_dekam_box_form" model="ir.ui.view">
+			<field name="name">dekam.box.form</field>
+			<field name="model">dekam.box</field>
+			<field name="arch" type="xml">
+				<form string="Cajones">
+					<sheet>
+						<group>
+							<field name="name" string="Detalle" width="40"/>
+							<field name="high" string="Altura de Cajón (mm)" width="30"/>
+							<field name="working_hours" string="Horas de Trabajo" width="30"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+    	</record>
+
+		<record id="dekam_box_action" model="ir.actions.act_window">
+			<field name="name">Cajones</field>
+			<field name="res_model">dekam.box</field>
+			<field name="view_mode">tree,form</field>
+    	</record>
+
+	</data>
+</odoo>

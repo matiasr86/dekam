@@ -1,0 +1,48 @@
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_dekam_line_tree" model="ir.ui.view">
+            <field name="name">dekam.line.tree</field>
+            <field name="model">dekam.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Nombre"/>
+                    <field name="background" string="Fondo"/>
+                    <field name="materialMargin" string="Margen Materiales (%)"/>
+                    <field name="accessoriesMargin" string="Margen Accesorios (%)"/>
+                    <field name="edgeMargin" string="Margen Canto (%)"/>
+                    <field name="workForceMargin" string="Margen Mano de Obra (%)"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_dekam_line_form" model="ir.ui.view">
+            <field name="name">dekam.line.form</field>
+            <field name="model">dekam.line</field>
+            <field name="arch" type="xml">
+                <form string="Líneas de Módulos">
+                    <sheet>
+                        <group>
+                            <field name="name" string="Nombre"/>
+                            <field name="background" string="Fondo"/>
+                        </group>
+                        <group>
+                            <field name="materialMargin" string="Margen Materiales (%)"/>
+                            <field name="accessoriesMargin" string="Margen Accesorios (%)"/>
+                            <field name="edgeMargin" string="Margen Canto (%)"/>
+                            <field name="workForceMargin" string="Margen Mano de Obra (%)"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="dekam_line_action" model="ir.actions.act_window">
+            <field name="name">Líneas de Módulos</field>
+            <field name="res_model">dekam.line</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

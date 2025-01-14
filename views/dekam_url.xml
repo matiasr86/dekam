@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_dekam_url_tree" model="ir.ui.view">
+            <field name="name">dekam.url.tree</field>
+            <field name="model">dekam.url</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Proveedor"/>
+                    <field name="url" string="URL"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_dekam_url_form" model="ir.ui.view">
+            <field name="name">dekam.url.form</field>
+            <field name="model">dekam.url</field>
+            <field name="arch" type="xml">
+                <form string="URL de Proveedores">
+                    <sheet>
+                        <group>
+                            <field name="name" string="Proveedor"/>
+                            <field name="url" string="URL"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="dekam_url_action" model="ir.actions.act_window">
+            <field name="name">URL de Proveedores</field>
+            <field name="res_model">dekam.url</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

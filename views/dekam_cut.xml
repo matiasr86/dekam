@@ -1,0 +1,52 @@
+<odoo>
+    <record id="view_dekam_cut_tree" model="ir.ui.view">
+        <field name="name">dekam.cut.tree</field>
+        <field name="model">dekam.cut</field>
+        <field name="arch" type="xml">
+            <tree string="Cortes">
+                <field name="name"/>
+                <field name="quantity"/>
+                <field name="length"/>
+                <field name="width"/>
+                <field name="squareMeters"/>
+                <field name="edge"/>
+                <field name="left"/>
+                <field name="right"/>
+                <field name="top"/>
+                <field name="bottom"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_dekam_cut_form" model="ir.ui.view">
+        <field name="name">dekam.cut.form</field>
+        <field name="model">dekam.cut</field>
+        <field name="arch" type="xml">
+            <form string="Cortes">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="quantity"/>
+                        <field name="length"/>
+                        <field name="width"/>
+                        <field name="squareMeters" readonly="1"/>
+                        <field name="edge"/>
+                    </group>
+                    <group>
+                        <field name="left"/>
+                        <field name="right"/>
+                        <field name="top"/>
+                        <field name="bottom"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="dekam_cut_action" model="ir.actions.act_window">
+        <field name="name">Cortes</field>
+        <field name="res_model">dekam.cut</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

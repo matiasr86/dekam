@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_dekam_edge_tree" model="ir.ui.view">
+            <field name="name">dekam.edge.tree</field>
+            <field name="model">dekam.edge</field>
+            <field name="arch" type="xml">
+                <tree string="Cantos">
+                    <field name="name" string="Nombre"/>
+                    <field name="thickness" string="Espesor (mm)"/>
+                    <field name="width" string="Ancho (mm)"/>
+                    <field name="costPrice" string="Costo por Metro"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_dekam_edge_form" model="ir.ui.view">
+            <field name="name">dekam.edge.form</field>
+            <field name="model">dekam.edge</field>
+            <field name="arch" type="xml">
+                <form string="Cantos">
+                    <sheet>
+                        <group>
+                            <field name="name" string="Nombre"/>
+                        </group>
+                        <group>
+                            <field name="thickness" string="Espesor (mm)"/>
+                            <field name="width" string="Ancho (mm)"/>
+                        </group>
+                        <group>
+                            <field name="costPrice" string="Costo por Metro"/>
+                        </group>
+                        <group string="Proveedores">
+                            <field name="urls" widget="many2many_tags" string="URLs Proveedores"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="dekam_edge_action" model="ir.actions.act_window">
+            <field name="name">Cantos</field>
+            <field name="res_model">dekam.edge</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

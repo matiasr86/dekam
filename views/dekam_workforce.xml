@@ -1,0 +1,36 @@
+<odoo>
+	<data>
+		<record id="view_dekam_workforce_tree" model="ir.ui.view">
+			<field name="name">dekam_workforce.tree</field>
+			<field name="model">dekam.workforce</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" string="Detalle"/>
+					<field name="cost_per_hour" string="Costo por Hora"/>
+				</tree>
+			</field>
+    	</record>
+
+		<record id="view_dekam_workforce_form" model="ir.ui.view">
+			<field name="name">dekam_workforce.form</field>
+			<field name="model">dekam.workforce</field>
+			<field name="arch" type="xml">
+				<form string="Fondo">
+					<sheet>
+						<group>
+							<field name="name" string="Detalle" width="70"/>
+							<field name="cost_per_hour" string="Costo por Hora" width="30"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+    	</record>
+
+		<record id="dekam_workforce_action" model="ir.actions.act_window">
+			<field name="name">Mano de Obra</field>
+			<field name="res_model">dekam.workforce</field>
+			<field name="view_mode">tree,form</field>
+    	</record>
+
+	</data>
+</odoo>
