@@ -36,6 +36,7 @@
         'views/dekam_cut.xml',
         'views/dekam_edge.xml',
         'views/dekam_accessory.xml',
+        'views/dekam_module.xml',
         'views/menu.xml',
     ],
 }

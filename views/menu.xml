@@ -57,6 +57,12 @@
                 action="dekam_accessory_action"
             />
 
+            <menuitem
+                id="dekam_module_menu_action"
+                name="Modulos"
+                action="dekam_module_action"
+            />
+
         </menuitem>
 
 

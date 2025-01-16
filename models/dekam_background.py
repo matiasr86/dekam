@@ -6,4 +6,4 @@ class Background(models.Model):
 
     name = fields.Char(string="Nombre")
     work_hours = fields.Float(string="Horas de Trabajo")
-    material
+

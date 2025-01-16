@@ -17,3 +17,9 @@ access_dekam_edge_admin,access_dekam_edge_admin,model_dekam_edge,base.group_syst
 access_dekam_edge_user,access_dekam_edge_user,model_dekam_edge,base.group_user,1,0,0,0
 access_dekam_accessory_admin,access_dekam_accessory_admin,model_dekam_accessory,base.group_system,1,1,1,1
 access_dekam_accessory_user,access_dekam_accessory_user,model_dekam_accessory,base.group_user,1,0,0,0
+access_dekam_item_material_admin,access_dekam_item_material_admin,model_dekam_item_material,base.group_system,1,1,1,1
+access_dekam_item_material_user,access_dekam_item_material_user,model_dekam_item_material,base.group_user,1,0,0,0
+access_dekam_module_admin,access_dekam_module_admin,model_dekam_module,base.group_system,1,1,1,1
+access_dekam_module_user,access_dekam_module_user,model_dekam_module,base.group_user,1,0,0,0
+access_dekam_item_box_admin,access_dekam_item_box_admin,model_dekam_item_box,base.group_system,1,1,1,1
+access_dekam_item_box_user,access_dekam_item_box_user,model_dekam_item_box,base.group_user,1,0,0,0

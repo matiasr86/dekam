@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <tree string="Accesorios">
                     <field name="name" string="Nombre"/>
-                    <field name="costPrice" string="Precio de Costo"/>
+                    <field name="cost_price" string="Precio de Costo"/>
                     <field name="placementTime" string="Tiempo de Colocación (hs)"/>
                 </tree>
             </field>
@@ -24,7 +24,7 @@
                             <field name="name" string="Nombre"/>
                         </group>
                         <group>
-                            <field name="costPrice" string="Precio de Costo"/>
+                            <field name="cost_price" string="Precio de Costo"/>
                             <field name="placementTime" string="Tiempo de Colocación (hs)"/>
                         </group>
                         <group string="Proveedores">

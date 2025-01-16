@@ -9,7 +9,7 @@
                     <field name="name" string="Nombre"/>
                     <field name="thickness" string="Espesor (mm)"/>
                     <field name="width" string="Ancho (mm)"/>
-                    <field name="costPrice" string="Costo por Metro"/>
+                    <field name="cost_price" string="Costo por Metro"/>
                 </tree>
             </field>
         </record>
@@ -29,7 +29,7 @@
                             <field name="width" string="Ancho (mm)"/>
                         </group>
                         <group>
-                            <field name="costPrice" string="Costo por Metro"/>
+                            <field name="cost_price" string="Costo por Metro"/>
                         </group>
                         <group string="Proveedores">
                             <field name="urls" widget="many2many_tags" string="URLs Proveedores"/>

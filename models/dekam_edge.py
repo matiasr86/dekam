@@ -8,5 +8,5 @@ class Edge(models.Model):
     thickness = fields.Float(string="Espesor (mm)")
     width = fields.Float(string="Ancho (mm)")
     urls = fields.Many2many('dekam.url',  string="Url Proveedores")
-    costPrice = fields.Float(string="Costo por Metro")
+    cost_price = fields.Float (string="Costo x Metro")
 

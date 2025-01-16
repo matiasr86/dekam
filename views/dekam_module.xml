@@ -1,0 +1,81 @@
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_dekam_module_tree" model="ir.ui.view">
+            <field name="name">dekam.module.tree</field>
+            <field name="model">dekam.module</field>
+            <field name="arch" type="xml">
+                <tree string="Módulos">
+                    <field name="name" string="Nombre"/>
+                    <field name="line" string="Línea"/>
+                    <field name="total_order_cost" string="Costo Total"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_dekam_module_form" model="ir.ui.view">
+            <field name="name">dekam.module.form</field>
+            <field name="model">dekam.module</field>
+            <field name="arch" type="xml">
+                <form string="Módulo">
+                    <sheet>
+                        <group>
+                            <field name="name" string="Nombre"/>
+                            <field name="line" string="Línea"/>
+                        </group>
+                        <group string="Caja">
+                            <field name="wood" string="Maderas"/>
+                            <field name="item_material_ids">
+                                <tree string="Materiales">
+                                    <field name="material_id" string="Material" width="70"/>
+                                    <field name="quantity" string="Cantidad" width="15"/>
+                                    <field name="total_cost" string="Costo Total" width="15"/>
+                                </tree>
+                            </field>
+                            <group >
+                                <group string="Opcionales">
+                                    <field name="complete_top"/>
+                                    <field name="strip_quantity"/>
+                                    <field name="rack_quantity"/>
+                                </group>
+                                <group string="Medidas">
+                                    <field name="high"/>
+                                    <field name="width"/>
+                                    <field name="depth"/>
+                                </group>
+                                <group string="Trabajo (hs)">
+                                    <field name="box_work_hours" string="Horas de Fabricación (Caja)"/>
+                                </group>
+                            </group>
+                        </group>
+                        <group >
+                            <group string="Puertas">
+                                <field name="wood" string="Maderas"/>
+                            </group>
+                            <group string="Cajones">
+                                <field name="item_box_ids">
+                                <tree string="Cajones">
+                                    <field name="box_id" string="Cajón" width="70"/>
+                                    <field name="quantity" string="Cantidad" width="15"/>
+                                    <field name="total_cost" string="Costo Total" width="15"/>
+                                </tree>
+                            </field>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="total_order_cost" string="Costo Total del Módulo" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="dekam_module_action" model="ir.actions.act_window">
+            <field name="name">Módulos</field>
+            <field name="res_model">dekam.module</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

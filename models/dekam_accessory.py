@@ -6,5 +6,5 @@ class Accesory(models.Model):
 
     name = fields.Char(string="Nombre")
     urls = fields.Many2many('dekam.url', 'accessory_id', string="Url Proveedores")
-    costPrice = fields.Float(string="Precio de Costo")
+    cost_price = fields.Float (string="Precio de Costo")
     placementTime = fields.Float(string="Tiempo de Colocación (hs)")

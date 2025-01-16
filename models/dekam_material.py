@@ -5,7 +5,7 @@ class Material(models.Model):
     _description = 'Material'
 
     name = fields.Char(string="Nombre")
-    costPrice = fields.Float(string="Precio de Costo")
+    cost_price = fields.Float (string="Precio de Costo")
     urls = fields.Many2many('dekam.url', 'material_id', string="Url Proveedores")
     isWood = fields.Boolean(string="Es Madera?")
     length = fields.Float(string="Largo")
@@ -13,7 +13,7 @@ class Material(models.Model):
     thickness = fields.Float (string= "Espesor")
     squareMetersPrice = fields.Float(string="Precio x Mts2", compute="_compute_square_meters_price", store=True)
 
-    @api.depends('length', 'width', 'costPrice')
+    @api.depends('length', 'width', 'cost_price')
     def _compute_square_meters_price(self):
         for record in self:
             # Convertir largo y ancho de mm a metros
@@ -25,7 +25,7 @@ class Material(models.Model):
 
             # Calcular el precio por metro cuadrado
             if area_in_square_meters > 0:
-                record.squareMetersPrice = record.costPrice / area_in_square_meters
+                record.squareMetersPrice = record.cost_price / area_in_square_meters
             else:
                 record.squareMetersPrice = 0
 

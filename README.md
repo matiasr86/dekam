@@ -1,2 +1,2 @@
-# gic
-Trabajo final de Ingenieria
+# dekam
+App para la muebleria
