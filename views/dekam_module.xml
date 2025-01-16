@@ -25,7 +25,9 @@
                             <field name="line" string="Línea"/>
                         </group>
                         <group string="Caja">
-                            <field name="wood" string="Maderas"/>
+                            <group>
+                                <field name="wood"/>
+                            </group>
                             <field name="item_material_ids">
                                 <tree string="Materiales">
                                     <field name="material_id" string="Material" width="70"/>
@@ -56,13 +58,16 @@
                             <group string="Cajones">
                                 <field name="item_box_ids">
                                 <tree string="Cajones">
-                                    <field name="box_id" string="Cajón" width="70"/>
+                                    <field name="box" string="Cajón" width="70"/>
                                     <field name="quantity" string="Cantidad" width="15"/>
                                     <field name="total_cost" string="Costo Total" width="15"/>
                                 </tree>
                             </field>
                             </group>
                         </group>
+                        <group>
+                                <field name="front_wood"/>
+                            </group>
                         <group>
                             <field name="total_order_cost" string="Costo Total del Módulo" readonly="1"/>
                         </group>

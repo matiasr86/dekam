@@ -20,8 +20,24 @@
 					<sheet>
 						<group>
 							<field name="name" string="Detalle" width="40"/>
-							<field name="high" string="Altura de Cajón (mm)" width="30"/>
-							<field name="working_hours" string="Horas de Trabajo" width="30"/>
+							<group string="Accesorios">
+                                <field name="item_accessory_ids">
+                                <tree string="Accesorios">
+                                    <field name="accessory_id" string="Accesorio" width="70"/>
+                                    <field name="quantity" string="Cantidad" width="15"/>
+                                    <field name="total_cost" string="Costo Total" width="15"/>
+                                </tree>
+								</field>
+							</group>
+							<group string="Caracteristicas">
+								<field name="high" string="Altura de Cajón (mm)"/>
+								<field name="depth"/>
+								<field name="is_lateral_wood"/>
+								<field name="lateral_wood"/>
+								<field name="floor_wood"/>
+								<field name="working_hours" />
+							</group>
+							<field name="total_cost" string="Horas de Trabajo"/>
 						</group>
 					</sheet>
 				</form>

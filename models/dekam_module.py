@@ -16,7 +16,7 @@ class Module(models.Model):
     depth = fields.Float (string="Profundidad")
     box_work_hours = fields.Float (string="Horas de Trabajo")
     item_box_ids = fields.One2many('dekam.item.box', 'module_id', string="Cajones")
-
+    front_wood = fields.Many2one('dekam.material', string="Madera Frente")
     total_order_cost = fields.Float(string="Costo Total de la Orden", compute="_compute_total_order_cost", store=True)
 
     @api.depends('item_material_ids.total_cost')
