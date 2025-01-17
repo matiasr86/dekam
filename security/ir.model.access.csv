@@ -25,3 +25,7 @@ access_dekam_item_box_admin,access_dekam_item_box_admin,model_dekam_item_box,bas
 access_dekam_item_box_user,access_dekam_item_box_user,model_dekam_item_box,base.group_user,1,0,0,0
 access_dekam_item_accessory_admin,access_dekam_item_accessory_admin,model_dekam_item_accessory,base.group_system,1,1,1,1
 access_dekam_item_accessory_user,access_dekam_item_accessory_user,model_dekam_item_accessory,base.group_user,1,0,0,0
+access_dekam_item_door_admin,access_dekam_item_door_admin,model_dekam_item_door,base.group_system,1,1,1,1
+access_dekam_item_door_user,access_dekam_item_door_user,model_dekam_item_door,base.group_user,1,0,0,0
+access_dekam_door_admin,access_dekam_door_admin,model_dekam_door,base.group_system,1,1,1,1
+access_dekam_door_user,access_dekam_door_user,model_dekam_door,base.group_user,1,0,0,0

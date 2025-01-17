@@ -20,6 +20,11 @@
                 name="Cajones"
                 action="dekam_box_action"
             />
+            <menuitem
+                id="dekam_door_menu_action"
+                name="Puertas"
+                action="dekam_door_action"
+            />
 
             <menuitem
                 id="dekam_line_menu_action"

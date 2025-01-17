@@ -12,7 +12,7 @@ class Box(models.Model):
     lateral_wood = fields.Many2one('dekam.material' , string="Madera de Lateral")
     floor_wood = fields.Many2one('dekam.material', string="Madera de Piso")
     working_hours = fields.Float(string= "Horas de Trabajo")
-    total_cost = fields.Float(string="Costo Total de la Orden", compute="_compute_total_cost", store=True)
+    total_cost = fields.Float(string="Costo Total", compute="_compute_total_cost", store=True)
 
     @api.depends('item_accessory_ids.total_cost')
     def _compute_total_cost(self):

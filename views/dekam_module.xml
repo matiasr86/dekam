@@ -8,7 +8,7 @@
                 <tree string="Módulos">
                     <field name="name" string="Nombre"/>
                     <field name="line" string="Línea"/>
-                    <field name="total_order_cost" string="Costo Total"/>
+                    <field name="total_cost" string="Costo Total"/>
                 </tree>
             </field>
         </record>
@@ -51,25 +51,44 @@
                                 </group>
                             </group>
                         </group>
+                        <separator/>
                         <group >
                             <group string="Puertas">
-                                <field name="wood" string="Maderas"/>
+                                <field name="item_door_ids">
+                                    <tree string="Puertas">
+                                        <field name="door_id" string="Puerta" width="70"/>
+                                        <field name="quantity" string="Cantidad" width="15"/>
+                                        <field name="total_cost" string="Costo Total" width="15"/>
+                                    </tree>
+                                </field>
+                                <field name="total_cost_door"/>
                             </group>
                             <group string="Cajones">
                                 <field name="item_box_ids">
-                                <tree string="Cajones">
-                                    <field name="box" string="Cajón" width="70"/>
-                                    <field name="quantity" string="Cantidad" width="15"/>
-                                    <field name="total_cost" string="Costo Total" width="15"/>
-                                </tree>
-                            </field>
+                                    <tree string="Cajones">
+                                        <field name="box" string="Cajón" width="70"/>
+                                        <field name="quantity" string="Cantidad" width="15"/>
+                                        <field name="total_cost" string="Costo Total" width="15"/>
+                                    </tree>
+                                </field>
+                                <field name="total_cost_box"/>
                             </group>
                         </group>
                         <group>
-                                <field name="front_wood"/>
-                            </group>
+                            <field name="front_wood"/>
+                        </group>
+                        <separator/>
                         <group>
-                            <field name="total_order_cost" string="Costo Total del Módulo" readonly="1"/>
+                            <field name="item_accessory_ids">
+                                    <tree string="Accesorios Adicionales">
+                                        <field name="accessory_id" string="Accesorio" width="70"/>
+                                        <field name="quantity" string="Cantidad" width="15"/>
+                                        <field name="total_cost" string="Costo Total" width="15"/>
+                                    </tree>
+                                </field>
+                        </group>
+                        <group>
+                            <field name="total_cost" string="Costo Total del Módulo" readonly="1"/>
                         </group>
                     </sheet>
                 </form>

@@ -8,6 +8,8 @@ class ItemAccessory(models.Model):
     quantity = fields.Float(string="Cantidad", required=True, default=1.0)
     total_cost = fields.Float(string="Costo Total", compute="_compute_total_cost", store=True)
     box_id = fields.Many2one('dekam.box', string="Cajón")
+    module_id = fields.Many2one('dekam.module', string="Módulo")
+    door_id = fields.Many2one('dekam.door', string="Módulo")
 
 
     @api.depends('accessory_id.cost_price', 'quantity')

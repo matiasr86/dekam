@@ -1,0 +1,64 @@
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_dekam_door_tree" model="ir.ui.view">
+            <field name="name">dekam.door.tree</field>
+            <field name="model">dekam.door</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Nombre"/>
+                    <field name="is_wood" string="En Madera?"/>
+                    <field name="elbow" string="Codo (mm)"/>
+                    <field name="light_horizontal" string="Luz Horizontal (mm)"/>
+                    <field name="light_vertical" string="Luz Vertical (mm)"/>
+                    <field name="working_hours" string="Horas de Trabajo"/>
+                    <field name="total_cost" string="Costo Total"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_dekam_door_form" model="ir.ui.view">
+            <field name="name">dekam.door.form</field>
+            <field name="model">dekam.door</field>
+            <field name="arch" type="xml">
+                <form string="Puerta">
+                    <sheet>
+                        <group>
+                            <field name="name" string="Nombre"/>
+                            <field name="is_wood" string="En Madera?"/>
+                        </group>
+                        <group string="Dimensiones">
+                            <field name="elbow" string="Codo (mm)"/>
+                            <field name="light_horizontal" string="Luz Horizontal (mm)"/>
+                            <field name="light_vertical" string="Luz Vertical (mm)"/>
+                        </group>
+                        <group string="Materiales">
+                            <field name="edge" string="Canto"/>
+                        </group>
+                        <group string="Accesorios">
+                            <field name="item_accessory_ids">
+                                <tree string="Accesorios">
+                                    <field name="accessory_id" string="Accesorio"/>
+                                    <field name="quantity" string="Cantidad"/>
+                                    <field name="total_cost" string="Costo Total"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Trabajo">
+                            <field name="working_hours" string="Horas de Trabajo"/>
+                            <field name="total_cost" string="Costo Total" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="dekam_door_action" model="ir.actions.act_window">
+            <field name="name">Puertas</field>
+            <field name="res_model">dekam.door</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>
