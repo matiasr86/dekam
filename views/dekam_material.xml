@@ -26,6 +26,7 @@
                     <sheet>
                         <group>
                             <field name="name" string="Nombre"/>
+                            <field name="lines" widget="many2many_tags" options="{'no_create': True}" />
                             <field name="isWood" string="Es Madera?"/>
                         </group>
                         <group string="Dimensiones (mm)">

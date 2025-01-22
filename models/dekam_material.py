@@ -5,6 +5,7 @@ class Material(models.Model):
     _description = 'Material'
 
     name = fields.Char(string="Nombre")
+    lines = fields.One2many('dekam.line', 'material_id', string="Lineas")
     cost_price = fields.Float (string="Precio de Costo")
     urls = fields.Many2many('dekam.url', 'material_id', string="Url Proveedores")
     isWood = fields.Boolean(string="Es Madera?")

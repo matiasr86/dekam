@@ -22,6 +22,7 @@
                     <sheet>
                         <group>
                             <field name="name" string="Nombre"/>
+                            <field name="lines" widget="many2many_tags" options="{'no_create': True}" />
                         </group>
                         <group>
                             <field name="cost_price" string="Precio de Costo"/>

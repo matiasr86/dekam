@@ -5,6 +5,7 @@ class Door(models.Model):
     _description = 'Door'
 
     name = fields.Char(string="Nombre")
+    lines = fields.One2many('dekam.line', 'door_id', string="Lineas")
     is_wood = fields.Boolean(string="En Madera?")
     elbow = fields.Float(string="Codo")
     light_horizontal = fields.Float(string="Luz en Horizontal")

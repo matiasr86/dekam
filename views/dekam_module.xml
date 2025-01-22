@@ -72,6 +72,7 @@
                                     </tree>
                                 </field>
                                 <field name="total_cost_box"/>
+                                <field name="total_hours_box"/>
                             </group>
                         </group>
                         <group>

@@ -20,6 +20,7 @@
 					<sheet>
 						<group>
 							<field name="name" string="Detalle" width="40"/>
+							<field name="lines" widget="many2many_tags" options="{'no_create': True}" />
 							<group string="Accesorios">
                                 <field name="item_accessory_ids">
                                 <tree string="Accesorios">
@@ -37,7 +38,21 @@
 								<field name="floor_wood"/>
 								<field name="working_hours" />
 							</group>
-							<field name="total_cost" string="Horas de Trabajo"/>
+						</group>
+						<separator/>
+						<group>
+							<field name="total_accessorys"/>
+						</group>
+						<group>
+							<group>
+								<field name="total_workforce"/>
+							</group>
+							<group>
+								<field name="total_hours"/>
+							</group>
+						</group>
+						<group>
+							<field name="total_cost"/>
 						</group>
 					</sheet>
 				</form>
