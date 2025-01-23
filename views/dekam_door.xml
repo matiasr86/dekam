@@ -30,7 +30,7 @@
                             <field name="is_wood" string="En Madera?"/>
                         </group>
                         <group string="Dimensiones">
-                            <field name="elbow" string="Codo (mm)"/>
+                            <field name="elbow" widget="selection" string="Codo"/>
                             <field name="light_horizontal" string="Luz Horizontal (mm)"/>
                             <field name="light_vertical" string="Luz Vertical (mm)"/>
                         </group>
@@ -47,8 +47,9 @@
                             </field>
                         </group>
                         <group string="Trabajo">
-                            <field name="working_hours" string="Horas de Trabajo"/>
-                            <field name="total_cost" string="Costo Total" readonly="1"/>
+                            <field name="working_hours"/>
+                            <field name="total_workforce"/>
+                            <field name="total_cost" />
                         </group>
                     </sheet>
                 </form>

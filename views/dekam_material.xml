@@ -29,14 +29,14 @@
                             <field name="lines" widget="many2many_tags" options="{'no_create': True}" />
                             <field name="isWood" string="Es Madera?"/>
                         </group>
-                        <group string="Dimensiones (mm)">
+                        <group string="Dimensiones (mm)" attrs="{'invisible': [('isWood', '=', False)]}">
                             <field name="length" string="Largo"/>
                             <field name="width" string="Ancho"/>
                             <field name="thickness" string="Espesor"/>
                         </group>
                         <group>
                             <field name="cost_price" string="Precio de Costo"/>
-                            <field name="squareMetersPrice" string="Precio x Mts2"/>
+                            <field name="squareMetersPrice" attrs="{'invisible': [('isWood', '=', False)]}" string="Precio x Mts2"/>
                         </group>
                         <group string="Proveedores">
                             <field name="urls" widget="many2many_tags" string="URLs Proveedores"/>

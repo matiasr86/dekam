@@ -4,10 +4,11 @@ class ItemMaterial(models.Model):
     _name = 'dekam.item.material'
     _description = 'Item Material'
 
-    material_id = fields.Many2one('dekam.material', string="Material", required=True)
+    material_id = fields.Many2one('dekam.material',domain=[('isWood', '=', False)], string="Material", required=True)
     quantity = fields.Float(string="Cantidad", required=True, default=1.0)
     total_cost = fields.Float(string="Costo Total", compute="_compute_total_cost", store=True)
     module_id = fields.Many2one('dekam.module', string="Módulo")
+    box_id = fields.Many2one('dekam.box', string="Cajón")
 
     @api.depends('material_id.cost_price', 'quantity')
     def _compute_total_cost(self):

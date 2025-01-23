@@ -17,6 +17,7 @@ class Module(models.Model):
     box_work_hours = fields.Float(string="Horas de Fabricación (Caja)")
     item_door_ids = fields.One2many('dekam.item.door', 'module_id', string="Puertas")
     total_cost_door = fields.Float(string="Costo Total de la Puerta", compute="_compute_total_cost_door", store=True)
+    total_hours_door = fields.Float(string="Horas de Trabajo", compute="_compute_total_hours_door", store=True)
     item_box_ids = fields.One2many('dekam.item.box', 'module_id', string="Cajones")
     total_cost_box = fields.Float(string="Costo Cajones (Sin Madera)", compute="_compute_total_cost_box", store=True)
     total_hours_box = fields.Float(string="Horas de Trabajo", compute="_compute_total_hours_box", store=True)
@@ -45,3 +46,8 @@ class Module(models.Model):
     def _compute_total_hours_box(self):
         for record in self:
             record.total_hours_box = sum(item.total_hours for item in record.item_box_ids)
+
+    @api.depends('item_door_ids.total_hours')
+    def _compute_total_hours_door(self):
+        for record in self:
+            record.total_hours_door = sum(item.total_hours for item in record.item_door_ids)

@@ -62,6 +62,7 @@
                                     </tree>
                                 </field>
                                 <field name="total_cost_door"/>
+                                <field name="total_hours_door"/>
                             </group>
                             <group string="Cajones">
                                 <field name="item_box_ids">
