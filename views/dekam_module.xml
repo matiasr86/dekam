@@ -19,6 +19,9 @@
             <field name="model">dekam.module</field>
             <field name="arch" type="xml">
                 <form string="Módulo">
+                    <header>
+                        <button name="create_cut_list" string="Generar Cortes" type="object" class="btn-primary" />
+                    </header>
                     <sheet>
                         <group>
                             <field name="name" string="Nombre"/>
@@ -27,6 +30,7 @@
                         <group string="Caja">
                             <group>
                                 <field name="wood"/>
+                                <field name="edge"/>
                             </group>
                             <field name="item_material_ids">
                                 <tree string="Materiales">
@@ -39,6 +43,7 @@
                                 <group string="Opcionales">
                                     <field name="complete_top"/>
                                     <field name="strip_quantity"/>
+                                    <field name="strip_width"/>
                                     <field name="rack_quantity"/>
                                 </group>
                                 <group string="Medidas">
@@ -88,9 +93,30 @@
                                         <field name="total_cost" string="Costo Total" width="15"/>
                                     </tree>
                                 </field>
+                            <field name="total_accessorys"/>
+                            <field name="total_hours_acce"/>
                         </group>
                         <group>
-                            <field name="total_cost" string="Costo Total del Módulo" readonly="1"/>
+                            <!-- Nuevo grupo para mostrar los cortes -->
+                            <separator string="Cortes Generados" colspan="4"/>
+                            <field name="cuts">
+                                <tree string="Cortes">
+                                    <field name="name" string="Nombre"/>
+                                    <field name="quantity" string="Cantidad"/>
+                                    <field name="squareMeters" string="Mts2"/>
+                                    <field name="wood" string="Madera"/>
+                                    <field name="length" string="Largo (mm)"/>
+                                    <field name="width" string="Ancho (mm)"/>
+                                    <field name="edge" string="Bordes"/>
+                                    <field name="left" string="Borde Izquierdo"/>
+                                    <field name="right" string="Borde Derecho"/>
+                                    <field name="top" string="Borde Superior"/>
+                                    <field name="bottom" string="Borde Inferior"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
+                            <field name="total_cost"/>
                         </group>
                     </sheet>
                 </form>
