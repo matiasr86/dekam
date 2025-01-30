@@ -16,6 +16,7 @@ class Cut(models.Model):
     top = fields.Boolean(string="Superior")
     bottom = fields.Boolean(string="Inferior")
     module_id = fields.Many2one('dekam.module', string="Módulo")
+    edgeMeters = fields.Float(string="Canto Mts", compute="_compute_edge_meters", store=True)
 
     @api.depends('length', 'width')
     def _compute_square_meters(self):
@@ -24,4 +25,18 @@ class Cut(models.Model):
             record.squareMeters = (record.length / 1000) * (
                         record.width / 1000) * record.quantity if record.length and record.width else 0
 
+
+    @api.depends('length', 'width', 'left', 'right', 'top', 'bottom')
+    def _compute_edge_meters(self):
+        for record in self:
+            total = 0
+            if record.top:
+                total += record.length * record.quantity
+            if record.bottom:
+                total += record.length * record.quantity
+            if record.left:
+                total += record.width * record.quantity
+            if record.right:
+                total += record.width * record.quantity
+            record.edgeMeters = total
 

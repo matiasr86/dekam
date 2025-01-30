@@ -5,7 +5,8 @@
 			<field name="model">dekam.background</field>
 			<field name="arch" type="xml">
 				<tree>
-					<field name="name" string="Nombre"/>
+					<field name="name"/>
+					<field name="wood"/>
 					<field name="work_hours" string="Horas de Trabajo"/>
 				</tree>
 			</field>
@@ -18,8 +19,9 @@
 				<form string="Fondos de Módulos">
 					<sheet>
 						<group>
-							<field name="name" string="Nombre" width="70"/>
-							<field name="work_hours" string="Horas de Trabajo" width="30"/>
+							<field name="name" width="70"/>
+							<field name="wood" width="15"/>
+							<field name="work_hours" width="15"/>
 						</group>
 					</sheet>
 				</form>

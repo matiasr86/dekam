@@ -5,5 +5,6 @@ class Background(models.Model):
     _description = 'Fondo'
 
     name = fields.Char(string="Nombre")
+    wood = fields.Many2one('dekam.material',domain=[('isWood', '=', True)], string="Madera")
     work_hours = fields.Float(string="Horas de Trabajo")
 

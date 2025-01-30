@@ -88,8 +88,8 @@ class Module(models.Model):
             all_cuts = []
             # Llamar a métodos específicos para cada tipo de corte
             all_cuts.extend(record._generate_box_cuts())
-            """
             all_cuts.extend(record._generate_drawer_cuts())
+            """
             all_cuts.extend(record._generate_door_cuts())
             """
 
@@ -168,28 +168,127 @@ class Module(models.Model):
                         'bottom': True,
                     })
         return cuts
-    """
+
 
     def _generate_drawer_cuts(self):
-
         cuts = []
-        if self.item_box_ids:
-            for drawer in self.item_box_ids:
-                cuts.append({
-                    'name': f'Cajón {drawer.id} - Frente',
-                    'quantity': 1,
-                    'wood': drawer.front_wood.id,
-                    'length': drawer.high,
-                    'width': drawer.width,
-                })
-                cuts.append({
-                    'name': f'Cajón {drawer.id} - Lateral',
-                    'quantity': 2,
-                    'wood': drawer.side_wood.id,
-                    'length': drawer.depth,
-                    'width': drawer.high,
-                })
+        for record in self:
+            if self.item_box_ids:
+                for drawer in self.item_box_ids:
+                    # Frente Visto de cajones, Calculados todos de la misma medida teniendo en cuenta la cantidad de cajones
+                    # Si el cajon es interno
+                    if drawer.box.is_inside:
+                        cuts.append({
+                            'name': f'Cajon Frente V - {drawer.box.name}',
+                            'quantity': 1 * drawer.quantity,
+                            'wood': record.front_wood.id,
+                            'length': record.width - (record.wood.thickness * 2) - (drawer.box.lateral_space * 2),
+                            'width': record.high - (record.wood.thickness * 2) - (drawer.box.top_space * 2)
+                                      - (drawer.box.between_box_space * ((sum(item.quantity for item in self.item_box_ids)) - 1))
+                                      if not drawer.box.with_profile  # Usamos 'not' para mejor claridad
+                                      else record.high - (record.wood.thickness * 2) - drawer.box.top_space
+                                            - (drawer.box.between_box_space * ((sum(item.quantity for item in self.item_box_ids)) - 1))
+                                            - (drawer.box.profile_size * (sum(item.quantity for item in self.item_box_ids))),
+                            'edge': drawer.box.edge_front.id,
+                            'left': True,
+                            'right': True,
+                            'top': True,
+                            'bottom': True,
+                        })
+                    else:
+                        # Si el Cajon es Externo
+                        cuts.append({
+                            'name': f'Cajon Frente V - {drawer.box.name}',
+                            'quantity': 1 * drawer.quantity,
+                            'wood': record.front_wood.id,
+                            'length': record.width - (drawer.box.lateral_space * 2),
+                            'width': (record.high - drawer.box.top_space
+                                      - (drawer.box.between_box_space * ((sum(item.quantity for item in self.item_box_ids)) - 1))
+                                      if not drawer.box.with_profile  # Usamos 'not' para mejor claridad
+                                      else (record.high - drawer.top_space
+                                            - (drawer.box.between_box_space * ((sum(item.quantity for item in self.item_box_ids)) - 1))
+                                            - (drawer.box.profile_size * len(self.item_box_ids)))),
+                            'edge': drawer.box.edge_front.id,
+                            'left': True,
+                            'right': True,
+                            'top': True,
+                            'bottom': True,
+                        })
+                    # Cortes Especiales si la totalidad del cajon se hace en MDF
+                    if drawer.box.is_lateral_wood:
+                        # Laterales
+                        cuts.append({
+                            'name': f'Cajon Lateral - {drawer.box.name}',
+                            'quantity': 2 * drawer.quantity,
+                            'wood': drawer.box.lateral_wood.id,
+                            'length': drawer.box.depth,
+                            'width': drawer.box.high,
+                            'edge': drawer.box.edge_box.id,
+                            'left': False,
+                            'right': False,
+                            'top': True,
+                            'bottom': True,
+                        })
+                        # Piso (Puede ser Ranurado o Entarugado)
+                        cuts.append({
+                            'name': f'Cajon Piso - {drawer.box.name}',
+                            'quantity': 1 * drawer.quantity,
+                            'wood': drawer.box.floor_wood.id,
+                            'length': record.width - (drawer.box.lateral_wood.thickness * 2) - drawer.box.slide_space
+                                        if drawer.box.type_union_floor == "doweled"
+                                        else record.width - (drawer.box.lateral_wood.thickness * 2) - drawer.box.slide_space + 12,
+                            'width': drawer.box.depth - (drawer.box.lateral_wood.thickness * 2) - 1
+                                        if drawer.box.type_union_floor == "doweled"
+                                        else drawer.box.depth - (drawer.box.lateral_wood.thickness * 2) + 12,
+                            'edge': drawer.box.edge_box.id,
+                            'left': False,
+                            'right': False,
+                            'top': False,
+                            'bottom': False,
+                        })
+                        # Frente y Contra frente
+                        cuts.append({
+                            'name': f'Fr y Contra Int - {drawer.box.name}',
+                            'quantity': 2 * drawer.quantity,
+                            'wood': drawer.box.lateral_wood.id,
+                            'length': record.width - (drawer.box.lateral_wood.thickness * 2) - drawer.box.slide_space,
+                            'width': drawer.box.high,
+                            'edge': drawer.box.edge_box.id,
+                            'left': False,
+                            'right': False,
+                            'top': True,
+                            'bottom': True,
+                        })
+                    else:
+                        # Piso (Cajones con laterales de acero)
+                        cuts.append({
+                            'name': f'Cajon Piso - {drawer.box.name}',
+                            'quantity': 1 * drawer.quantity,
+                            'wood': drawer.box.floor_wood.id,
+                            'length': record.width - (record.wood.thickness * 2) - drawer.box.floor_length,
+                            'width': drawer.box.depth - drawer.box.floor_depth,
+                            'edge': drawer.box.edge_box.id,
+                            'left': False,
+                            'right': False,
+                            'top': True,
+                            'bottom': True,
+                        })
+                        # Contra frente (Con laterales de acero)
+                        cuts.append({
+                            'name': f'Contra Fr - {drawer.box.name}',
+                            'quantity': 1 * drawer.quantity,
+                            'wood': drawer.box.floor_wood.id,
+                            'length': record.width - (drawer.box.lateral_wood.thickness * 2) - drawer.box.back_facade_length,
+                            'width': drawer.box.high,
+                            'edge': drawer.box.edge_box.id,
+                            'left': False,
+                            'right': False,
+                            'top': True,
+                            'bottom': True,
+                        })
         return cuts
+
+    """
 
     def _generate_door_cuts(self):
 

@@ -45,15 +45,32 @@
 								</field>
 								<field name="total_accessorys"/>
 							</group>
-							<group string="Caracteristicas">
+							<group string="Madera">
 								<field name="is_lateral_wood"/>
 								<field name="lateral_wood" attrs="{'invisible': [('is_lateral_wood', '=', False)]}"/>
 								<field name="floor_wood"/>
-								<field name="working_hours" />
-								<field name="total_workforce"/>
-								<field name="total_hours"/>
-								<field name="total_cost"/>
+								<field name="type_union_floor" attrs="{'invisible': [('is_lateral_wood', '=', False)]}"/>
+								<field name="edge_front"/>
+								<field name="edge_box"/>
+								<field name="back_facade_length" attrs="{'invisible': [('is_lateral_wood', '=', True)]}" />
+								<field name="floor_length" attrs="{'invisible': [('is_lateral_wood', '=', True)]}"/>
+								<field name="floor_depth" attrs="{'invisible': [('is_lateral_wood', '=', True)]}"/>
 							</group>
+							<group string="Caracteristicas">
+								<field name="is_inside"/>
+								<field name="lateral_space"/>
+								<field name="top_space"/>
+								<field name="between_box_space"/>
+								<field name="with_profile"/>
+								<field name="profile_size" attrs="{'invisible': [('with_profile', '=', False)]}"/>
+								<field name="slide_space" attrs="{'invisible': [('is_lateral_wood', '=', False)]}"/>
+							</group>
+						</group>
+						<group>
+							<field name="working_hours" />
+							<field name="total_workforce"/>
+							<field name="total_hours"/>
+							<field name="total_cost"/>
 						</group>
 					</sheet>
 				</form>

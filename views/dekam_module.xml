@@ -112,6 +112,7 @@
                                     <field name="right" string="Borde Derecho"/>
                                     <field name="top" string="Borde Superior"/>
                                     <field name="bottom" string="Borde Inferior"/>
+                                    <field name="edgeMeters"/>
                                 </tree>
                             </field>
                         </group>
