@@ -11,7 +11,6 @@ class Box(models.Model):
     high = fields.Float(string="Altura Cajón", required=True)
     depth = fields.Float(string="Profundidad", required=True)
 
-    is_inside = fields.Boolean(string="Es Interior?")
     lateral_space = fields.Float(string="Luz Lateral", required=True)
     top_space = fields.Float(string="Luz Superior", required=True)
     between_box_space = fields.Float(string="Luz entre Cajones", required=True)

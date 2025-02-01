@@ -59,6 +59,7 @@
                         <separator/>
                         <group >
                             <group string="Puertas">
+                                <field name="is_door_inside"/>
                                 <field name="item_door_ids">
                                     <tree string="Puertas">
                                         <field name="door_id" string="Puerta" width="70"/>
@@ -70,6 +71,7 @@
                                 <field name="total_hours_door"/>
                             </group>
                             <group string="Cajones">
+                                <field name="is_box_inside"/>
                                 <field name="item_box_ids">
                                     <tree string="Cajones">
                                         <field name="box" string="Cajón" width="70"/>

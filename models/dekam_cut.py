@@ -4,11 +4,11 @@ class Cut(models.Model):
     _name = 'dekam.cut'
     _description = 'Cortes'
 
-    name = fields.Char(string="Descripción")
-    quantity = fields.Integer(string="Cantidad")
-    wood = fields.Many2one('dekam.material',domain=[('isWood', '=', True)] , string="Madera")
-    length = fields.Float (string="Largo")
-    width = fields.Float (string="Ancho")
+    name = fields.Char(string="Descripción", required=True)
+    quantity = fields.Integer(string="Cantidad", required=True)
+    wood = fields.Many2one('dekam.material',domain=[('isWood', '=', True)] , string="Madera", required=True)
+    length = fields.Float (string="Largo", required=True)
+    width = fields.Float (string="Ancho", required=True)
     squareMeters = fields.Float(string="Mts2", compute="_compute_square_meters", store=True)
     edge = fields.Many2one ('dekam.edge', string="Canto")
     left = fields.Boolean(string="Izquierdo")

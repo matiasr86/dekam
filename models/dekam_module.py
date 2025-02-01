@@ -4,22 +4,24 @@ class Module(models.Model):
     _name = 'dekam.module'
     _description = 'Modulo'
 
-    name = fields.Char(string="Nombre")
-    line = fields.Many2one('dekam.line' , string="Linea")
-    wood = fields.Many2one('dekam.material' , string="Madera Caja")
-    edge = fields.Many2one('dekam.edge', string="Canto de Caja")
-    item_material_ids = fields.One2many('dekam.item.material', 'module_id', string="Materiales")
+    name = fields.Char(string="Nombre", required=True)
+    line = fields.Many2one('dekam.line' , string="Linea", required=True)
+    wood = fields.Many2one('dekam.material' , string="Madera Caja", required=True)
+    edge = fields.Many2one('dekam.edge', string="Canto de Caja", required=True)
+    item_material_ids = fields.One2many('dekam.item.material', 'module_id', string="Materiales", required=True)
     complete_top = fields.Boolean(string="Tapa Superior?")
-    strip_width = fields.Float(string="Ancho de Listones (mm)")
-    strip_quantity = fields.Integer(string="Cantidad de Listones")
-    rack_quantity = fields.Integer(string="Cantidad de Estantes")
-    high = fields.Float (string="Alto")
-    width = fields.Float (string="Ancho")
-    depth = fields.Float (string="Profundidad")
-    box_work_hours = fields.Float(string="Horas de Fabricación (Caja)")
+    strip_width = fields.Float(string="Ancho de Listones (mm)", required=True)
+    strip_quantity = fields.Integer(string="Cantidad de Listones", required=True)
+    rack_quantity = fields.Integer(string="Cantidad de Estantes", required=True)
+    high = fields.Float (string="Alto", required=True)
+    width = fields.Float (string="Ancho", required=True)
+    depth = fields.Float (string="Profundidad", required=True)
+    box_work_hours = fields.Float(string="Horas de Fabricación (Caja)", required=True)
+    is_door_inside = fields.Boolean(string="Puerta Interior?")
     item_door_ids = fields.One2many('dekam.item.door', 'module_id', string="Puertas")
     total_cost_door = fields.Float(string="Costo Total de la Puerta", compute="_compute_total_cost_door", store=True)
     total_hours_door = fields.Float(string="Horas de Trabajo", compute="_compute_total_hours_door", store=True)
+    is_box_inside = fields.Boolean(string="Cajón Interior?")
     item_box_ids = fields.One2many('dekam.item.box', 'module_id', string="Cajones")
     total_cost_box = fields.Float(string="Costo Cajones (Sin Madera)", compute="_compute_total_cost_box", store=True)
     total_hours_box = fields.Float(string="Horas de Trabajo", compute="_compute_total_hours_box", store=True)
@@ -88,10 +90,9 @@ class Module(models.Model):
             all_cuts = []
             # Llamar a métodos específicos para cada tipo de corte
             all_cuts.extend(record._generate_box_cuts())
-            all_cuts.extend(record._generate_drawer_cuts())
-            """
             all_cuts.extend(record._generate_door_cuts())
-            """
+            all_cuts.extend(record._generate_drawer_cuts())
+            all_cuts.extend(record._generate_background_cuts())
 
             # Crear registros de dekam.cut y relacionarlos con la instancia actual
             for cut_vals in all_cuts:
@@ -106,7 +107,7 @@ class Module(models.Model):
         for record in self:
             if record.high and record.width and record.depth:
                 cuts.append({
-                    'name': f'Lateral - {record.name}',
+                    'name': f' Caja Lat - {record.name}',
                     'quantity': 2,
                     'wood': record.wood.id,
                     'length': record.high,
@@ -118,10 +119,10 @@ class Module(models.Model):
                     'bottom': True,
                 })
                 cuts.append({
-                    'name': f'Piso - {record.name}',
+                    'name': f'Caja Piso - {record.name}',
                     'quantity': 1,
                     'wood': record.wood.id,
-                    'length': record.width - 36,
+                    'length': record.width - (record.wood.thickness * 2),
                     'width': record.depth,
                     'edge': record.edge.id,
                     'left': False,
@@ -131,10 +132,10 @@ class Module(models.Model):
                 })
                 if record.complete_top:
                     cuts.append({
-                        'name': f'Techo - {record.name}',
+                        'name': f'Caja Techo - {record.name}',
                         'quantity': 1,
                         'wood': record.wood.id,
-                        'length': record.width - 36,
+                        'length': record.width - (record.wood.thickness * 2),
                         'width': record.depth,
                         'edge': record.edge.id,
                         'left': False,
@@ -143,10 +144,10 @@ class Module(models.Model):
                         'bottom': True,
                     })
                 cuts.append({
-                    'name': f'Liston - {record.name}',
+                    'name': f'Caja Liston - {record.name}',
                     'quantity': record.strip_quantity,
                     'wood': record.wood.id,
-                    'length': record.width - 36,
+                    'length': record.width - (record.wood.thickness * 2),
                     'width': record.strip_width,
                     'edge': record.edge.id,
                     'left': False,
@@ -156,11 +157,11 @@ class Module(models.Model):
                 })
                 if record.rack_quantity > 0:
                     cuts.append({
-                        'name': f'Estante - {record.name}',
+                        'name': f'Caja Est. - {record.name}',
                         'quantity': record.rack_quantity,
                         'wood': record.wood.id,
-                        'length': record.width - 36,
-                        'width': record.depth - 20,
+                        'length': record.width - (record.wood.thickness * 2),
+                        'width': record.depth - 40,
                         'edge': record.edge.id,
                         'left': False,
                         'right': False,
@@ -169,30 +170,32 @@ class Module(models.Model):
                     })
         return cuts
 
-
     def _generate_drawer_cuts(self):
         cuts = []
         for record in self:
             if self.item_box_ids:
                 for drawer in self.item_box_ids:
+                    box_quantity = (sum(item.quantity for item in self.item_box_ids))
                     # Frente Visto de cajones, Calculados todos de la misma medida teniendo en cuenta la cantidad de cajones
                     # Si el cajon es interno
-                    if drawer.box.is_inside:
+                    if record.is_box_inside:
                         cuts.append({
                             'name': f'Cajon Frente V - {drawer.box.name}',
                             'quantity': 1 * drawer.quantity,
                             'wood': record.front_wood.id,
-                            'length': record.width - (record.wood.thickness * 2) - (drawer.box.lateral_space * 2),
-                            'width': record.high - (record.wood.thickness * 2) - (drawer.box.top_space * 2)
-                                      - (drawer.box.between_box_space * ((sum(item.quantity for item in self.item_box_ids)) - 1))
+                            'length': record.width - (record.wood.thickness * 2) - (drawer.box.lateral_space * 2) - (drawer.box.edge_front.thickness * 2),
+                            'width': (record.high - (record.wood.thickness * 2) - (drawer.box.top_space * 2)
+                                      - (drawer.box.between_box_space * (box_quantity - 1))
+                                      - (drawer.box.edge_front.thickness * 2)) / box_quantity
                                       if not drawer.box.with_profile  # Usamos 'not' para mejor claridad
-                                      else record.high - (record.wood.thickness * 2) - drawer.box.top_space
-                                            - (drawer.box.between_box_space * ((sum(item.quantity for item in self.item_box_ids)) - 1))
-                                            - (drawer.box.profile_size * (sum(item.quantity for item in self.item_box_ids))),
+                                      else (record.high - (record.wood.thickness * 2) - drawer.box.top_space
+                                            - (drawer.box.between_box_space * (box_quantity - 1))
+                                            - (drawer.box.profile_size * box_quantity)
+                                            - drawer.box.edge_front.thickness) / box_quantity,
                             'edge': drawer.box.edge_front.id,
                             'left': True,
                             'right': True,
-                            'top': True,
+                            'top': True if not drawer.box.with_profile else False,
                             'bottom': True,
                         })
                     else:
@@ -201,17 +204,19 @@ class Module(models.Model):
                             'name': f'Cajon Frente V - {drawer.box.name}',
                             'quantity': 1 * drawer.quantity,
                             'wood': record.front_wood.id,
-                            'length': record.width - (drawer.box.lateral_space * 2),
-                            'width': (record.high - drawer.box.top_space
-                                      - (drawer.box.between_box_space * ((sum(item.quantity for item in self.item_box_ids)) - 1))
+                            'length': record.width - (drawer.box.lateral_space * 2) - (drawer.box.edge_front.thickness * 2),
+                            'width':  (record.high - drawer.box.top_space
+                                      - drawer.box.between_box_space * (box_quantity - 1)
+                                      - (drawer.box.edge_front.thickness * 2)) / box_quantity
                                       if not drawer.box.with_profile  # Usamos 'not' para mejor claridad
                                       else (record.high - drawer.top_space
-                                            - (drawer.box.between_box_space * ((sum(item.quantity for item in self.item_box_ids)) - 1))
-                                            - (drawer.box.profile_size * len(self.item_box_ids)))),
+                                            - (drawer.box.between_box_space * (box_quantity - 1))
+                                            - drawer.box.profile_size * box_quantity
+                                            - drawer.box.edge_front.thickness) / box_quantity,
                             'edge': drawer.box.edge_front.id,
                             'left': True,
                             'right': True,
-                            'top': True,
+                            'top': True if not drawer.box.with_profile else False,
                             'bottom': True,
                         })
                     # Cortes Especiales si la totalidad del cajon se hace en MDF
@@ -248,7 +253,7 @@ class Module(models.Model):
                         })
                         # Frente y Contra frente
                         cuts.append({
-                            'name': f'Fr y Contra Int - {drawer.box.name}',
+                            'name': f'Cajon F y CF Int - {drawer.box.name}',
                             'quantity': 2 * drawer.quantity,
                             'wood': drawer.box.lateral_wood.id,
                             'length': record.width - (drawer.box.lateral_wood.thickness * 2) - drawer.box.slide_space,
@@ -275,7 +280,7 @@ class Module(models.Model):
                         })
                         # Contra frente (Con laterales de acero)
                         cuts.append({
-                            'name': f'Contra Fr - {drawer.box.name}',
+                            'name': f'Cajon CF - {drawer.box.name}',
                             'quantity': 1 * drawer.quantity,
                             'wood': drawer.box.floor_wood.id,
                             'length': record.width - (drawer.box.lateral_wood.thickness * 2) - drawer.box.back_facade_length,
@@ -288,20 +293,67 @@ class Module(models.Model):
                         })
         return cuts
 
-    """
-
     def _generate_door_cuts(self):
 
-        cuts = []
-        if self.item_door_ids:
-            for door in self.item_door_ids:
+        for record in self:
+            cuts = []
+            if self.item_door_ids:
+                for door in self.item_door_ids:
+                    door_quantity = (sum(item.quantity for item in self.item_door_ids))
+                    if record.is_door_inside:
+                        cuts.append({
+                            'name': f'Puerta {door.door_id.name}',
+                            'quantity': 1 * door.quantity,
+                            'wood': record.front_wood.id,
+                            'length': record.high - (record.wood.thickness * 2) - (door.door_id.edge.thickness * 2) - door.door_id.light_vertical,
+                            'width': (record.width - (record.wood.thickness * 2) - (door.door_id.edge.thickness * 2) - door.door_id.light_horizontal) / door_quantity,
+                            'edge': door.door_id.edge.id,
+                            'left': True,
+                            'right': True,
+                            'top': True,
+                            'bottom': True,
+                        })
+                    else:
+                        cuts.append({
+                            'name': f'Puerta {door.door_id.name}',
+                            'quantity': 1 * door.quantity,
+                            'wood': record.front_wood.id,
+                            'length': record.high - (door.door_id.edge.thickness * 2) - door.door_id.light_vertical,
+                            'width': (record.width - (door.door_id.edge.thickness * 2) - door.door_id.light_horizontal) / door_quantity,
+                            'edge': door.door_id.edge.id,
+                            'left': True,
+                            'right': True,
+                            'top': True,
+                            'bottom': True,
+                        })
+            return cuts
+
+    def _generate_background_cuts(self):
+
+        for record in self:
+            cuts = []
+            if record.line.background.background_type == "Ranurado":
                 cuts.append({
-                    'name': f'Puerta {door.id}',
+                    'name': f'Fondo - {record.line.background.background_type}',
                     'quantity': 1,
-                    'wood': door.wood.id,
-                    'length': door.high,
-                    'width': door.width,
+                    'wood': record.line.background.wood.id,
+                    'length': record.high - 10 ,
+                    'width': record.width - 10,
                 })
-        return cuts
-    
-    """
+            elif record.line.background.background_type == "Engrampado":
+                cuts.append({
+                    'name': f'Fondo - {record.line.background.background_type}',
+                    'quantity': 1,
+                    'wood': record.line.background.wood.id,
+                    'length': record.high,
+                    'width': record.width,
+                })
+            elif record.line.background.background_type == "MDF Entarugado":
+                cuts.append({
+                    'name': f'Fondo - {record.line.background.background_type}',
+                    'quantity': 1,
+                    'wood': record.line.background.wood.id,
+                    'length': record.high - (record.wood.thickness * 2),
+                    'width': record.width - (record.wood.thickness * 2),
+                })
+            return cuts

@@ -4,8 +4,8 @@ class Door(models.Model):
     _name = 'dekam.door'
     _description = 'Door'
 
-    name = fields.Char(string="Nombre")
-    lines = fields.One2many('dekam.line', 'door_id', string="Lineas")
+    name = fields.Char(string="Nombre", required=True)
+    lines = fields.One2many('dekam.line', 'door_id', string="Lineas", required=True)
     is_wood = fields.Boolean(string="En Madera?")
     elbow = fields.Selection(
     [
@@ -15,9 +15,9 @@ class Door(models.Model):
     ],
     string="Codo",
     required=True)
-    light_horizontal = fields.Float(string="Luz en Horizontal")
-    light_vertical = fields.Float(string="Luz en Vertical")
-    edge = fields.Many2one('dekam.edge', string="Canto")
+    light_horizontal = fields.Float(string="Luz en Horizontal", required=True)
+    light_vertical = fields.Float(string="Luz en Vertical", required=True)
+    edge = fields.Many2one('dekam.edge', string="Canto", required=True)
     item_accessory_ids = fields.One2many('dekam.item.accessory', 'door_id', string="Accesorios")
     working_hours = fields.Float(string= "Horas de Trabajo")
     total_workforce = fields.Float(string="Costo Mano de Obra", compute="_compute_total_workforce", store=True)

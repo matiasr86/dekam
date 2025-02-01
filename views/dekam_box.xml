@@ -57,7 +57,6 @@
 								<field name="floor_depth" attrs="{'invisible': [('is_lateral_wood', '=', True)]}"/>
 							</group>
 							<group string="Caracteristicas">
-								<field name="is_inside"/>
 								<field name="lateral_space"/>
 								<field name="top_space"/>
 								<field name="between_box_space"/>
