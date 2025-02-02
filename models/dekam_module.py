@@ -209,7 +209,7 @@ class Module(models.Model):
                                       - drawer.box.between_box_space * (box_quantity - 1)
                                       - (drawer.box.edge_front.thickness * 2)) / box_quantity
                                       if not drawer.box.with_profile  # Usamos 'not' para mejor claridad
-                                      else (record.high - drawer.top_space
+                                      else (record.high - drawer.box.top_space
                                             - (drawer.box.between_box_space * (box_quantity - 1))
                                             - drawer.box.profile_size * box_quantity
                                             - drawer.box.edge_front.thickness) / box_quantity,
@@ -337,8 +337,8 @@ class Module(models.Model):
                     'name': f'Fondo - {record.line.background.background_type}',
                     'quantity': 1,
                     'wood': record.line.background.wood.id,
-                    'length': record.high - 10 ,
-                    'width': record.width - 10,
+                    'length': record.high - (10 * 2) ,
+                    'width': record.width - (10 * 2),
                 })
             elif record.line.background.background_type == "Engrampado":
                 cuts.append({

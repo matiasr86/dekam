@@ -39,49 +39,45 @@
                                     <field name="total_cost" string="Costo Total" width="15"/>
                                 </tree>
                             </field>
-                            <group >
-                                <group string="Opcionales">
-                                    <field name="complete_top"/>
-                                    <field name="strip_quantity"/>
-                                    <field name="strip_width"/>
-                                    <field name="rack_quantity"/>
-                                </group>
-                                <group string="Medidas">
-                                    <field name="high"/>
-                                    <field name="width"/>
-                                    <field name="depth"/>
-                                </group>
-                                <group string="Trabajo (hs)">
-                                    <field name="box_work_hours" string="Horas de Fabricación (Caja)"/>
-                                </group>
+                            <group string="Opcionales" >
+                                <field name="complete_top"/>
+                                <field name="strip_quantity"/>
+                                <field name="strip_width"/>
+                                <field name="rack_quantity"/>
+                            </group>
+                            <group string="Medidas">
+                                <field name="high"/>
+                                <field name="width"/>
+                                <field name="depth"/>
+                            </group>
+                            <group string="Trabajo (hs)" >
+                                <field name="box_work_hours" string="Horas de Fabricación (Caja)"/>
                             </group>
                         </group>
                         <separator/>
-                        <group >
-                            <group string="Puertas">
-                                <field name="is_door_inside"/>
-                                <field name="item_door_ids">
-                                    <tree string="Puertas">
-                                        <field name="door_id" string="Puerta" width="70"/>
-                                        <field name="quantity" string="Cantidad" width="15"/>
-                                        <field name="total_cost" string="Costo Total" width="15"/>
-                                    </tree>
-                                </field>
-                                <field name="total_cost_door"/>
-                                <field name="total_hours_door"/>
-                            </group>
-                            <group string="Cajones">
-                                <field name="is_box_inside"/>
-                                <field name="item_box_ids">
-                                    <tree string="Cajones">
-                                        <field name="box" string="Cajón" width="70"/>
-                                        <field name="quantity" string="Cantidad" width="15"/>
-                                        <field name="total_cost" string="Costo Total" width="15"/>
-                                    </tree>
-                                </field>
-                                <field name="total_cost_box"/>
-                                <field name="total_hours_box"/>
-                            </group>
+                        <group string="Puertas">
+                            <field name="is_door_inside"/>
+                            <field name="item_door_ids">
+                                <tree string="Puertas">
+                                    <field name="door_id" string="Puerta" width="70"/>
+                                    <field name="quantity" string="Cantidad" width="15"/>
+                                    <field name="total_cost" string="Costo Total" width="15"/>
+                                </tree>
+                            </field>
+                            <field name="total_cost_door"/>
+                            <field name="total_hours_door"/>
+                        </group>
+                        <group string="Cajones">
+                            <field name="is_box_inside"/>
+                            <field name="item_box_ids">
+                                <tree string="Cajones">
+                                    <field name="box" string="Cajón" width="70"/>
+                                    <field name="quantity" string="Cantidad" width="15"/>
+                                    <field name="total_cost" string="Costo Total" width="15"/>
+                                </tree>
+                            </field>
+                            <field name="total_cost_box"/>
+                            <field name="total_hours_box"/>
                         </group>
                         <group>
                             <field name="front_wood"/>
@@ -118,7 +114,7 @@
                                 </tree>
                             </field>
                         </group>
-                        <group>
+                        <group string="Costos Totales">
                             <field name="total_cost"/>
                         </group>
                     </sheet>

@@ -65,7 +65,7 @@
 								<field name="slide_space" attrs="{'invisible': [('is_lateral_wood', '=', False)]}"/>
 							</group>
 						</group>
-						<group>
+						<group string="Costos Totales">
 							<field name="working_hours" />
 							<field name="total_workforce"/>
 							<field name="total_hours"/>
