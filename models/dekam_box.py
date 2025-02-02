@@ -68,3 +68,10 @@ class Box(models.Model):
             workforce = self.env['dekam.workforce'].search([], limit=1)
             cost_per_hour = workforce.cost_per_hour
             record.total_workforce = (record.total_hours * cost_per_hour)
+
+    @api.onchange('working_hours')
+    def _re_calculate_totals(self):
+        for record in self:
+            record._compute_total_workforce()
+            record._compute_total_hours()
+            record._compute_total_cost()
