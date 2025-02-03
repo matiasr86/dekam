@@ -9,6 +9,7 @@ class Module(models.Model):
     wood = fields.Many2one('dekam.material' , string="Madera Caja", required=True)
     edge = fields.Many2one('dekam.edge', string="Canto de Caja", required=True)
     item_material_ids = fields.One2many('dekam.item.material', 'module_id', string="Materiales", required=True)
+    total_cost_material = fields.Float(string="Costo Materiales", compute="_compute_total_cost_material", store=True)
     complete_top = fields.Boolean(string="Tapa Superior?")
     strip_width = fields.Float(string="Ancho de Listones (mm)", required=True)
     strip_quantity = fields.Integer(string="Cantidad de Listones", required=True)
@@ -32,7 +33,8 @@ class Module(models.Model):
     total_workforce_acce = fields.Float(string="Costo ", compute="_compute_total_workforce", store=True)
     total_cost = fields.Float(string="Costo Total del Módulo", compute="_compute_total_cost", store=True)
     cuts = fields.One2many('dekam.cut', 'module_id' , string="Cortes")
-
+    resume_cut = fields.One2many('dekam.resume.cut', 'module_id' , string="Resumen Cortes")
+    resume_edge = fields.One2many('dekam.resume.edge', 'module_id', string="Resumen Canto")
 
     @api.depends('item_material_ids.total_cost')
     def _compute_total_cost(self):
@@ -44,6 +46,11 @@ class Module(models.Model):
     def _compute_total_cost_door(self):
         for record in self:
             record.total_cost_door = sum(item.total_cost for item in record.item_door_ids)
+
+    @api.depends('item_material_ids.total_cost')
+    def _compute_total_cost_material(self):
+        for record in self:
+            record.total_cost_material = sum(item.total_cost for item in record.item_material_ids)
 
     @api.depends('item_box_ids.total_cost')
     def _compute_total_cost_box(self):
@@ -94,10 +101,14 @@ class Module(models.Model):
             all_cuts.extend(record._generate_drawer_cuts())
             all_cuts.extend(record._generate_background_cuts())
 
+
             # Crear registros de dekam.cut y relacionarlos con la instancia actual
             for cut_vals in all_cuts:
                 cut_vals['module_id'] = record.id  # Relacionar con el módulo actual
                 self.env['dekam.cut'].create(cut_vals)
+
+            record._generate_resume()
+
 
     def _generate_box_cuts(self):
         """
@@ -357,3 +368,63 @@ class Module(models.Model):
                     'width': record.width - (record.wood.thickness * 2),
                 })
             return cuts
+
+    def _generate_resume(self):
+
+        for record in self:
+            cuts = record.cuts
+            if record.resume_cut:
+                record.resume_cut.unlink()
+
+            # Obtener resumen de cortes por material
+            cuts_resume = cuts.read_group(
+                [('wood', '!=', False)],  # Asegurar que haya madera asignada
+                ['wood', 'squareMeters:sum'],
+                ['wood']
+            )
+
+            # Crear instancias para los cortes
+            for cut in cuts_resume:
+                self.env['dekam.resume.cut'].create({
+                    'module_id': record.id,
+                    'material_id': cut['wood'][0],  # Obtener el ID del material (madera)
+                    'total_m2': cut['squareMeters'],
+                })
+
+    def _generar_resumen_edges(self):
+
+        for record in self:
+            cuts = record.cuts
+            if record.resume_cut:
+                record.resume_cut.unlink()
+
+            # Obtener resumen de cortes por material
+            cuts_resume = cuts.read_group(
+                [('wood', '!=', False)],  # Asegurar que haya madera asignada
+                ['wood', 'squareMeters:sum'],
+                ['wood']
+            )
+
+            # Obtener resumen de cortes por material
+            edges_resume = cuts.read_group(
+                [('wood', '!=', False)],  # Asegurar que haya madera asignada
+                ['wood', 'edgeMeters:sum'],
+                ['wood']
+            )
+
+            # Crear instancias para los cortes
+            for cut in cuts_resume:
+                self.env['dekam.resume.cut'].create({
+                    'module_id': record.id,
+                    'material_id': cut['wood'][0],  # Obtener el ID del material (madera)
+                    'total_m2': cut['squareMeters'],
+                })
+
+            # Crear instancias para los cortes
+            for cut in cuts_resume:
+                self.env['dekam.resume.edge'].create({
+                    'module_id': record.id,
+                    'edge_id': cut['wood'][0],  # Obtener el ID del material (madera)
+                    'total_m2': cut['squareMeters'],
+                })
+

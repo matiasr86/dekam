@@ -32,13 +32,16 @@
                                 <field name="wood"/>
                                 <field name="edge"/>
                             </group>
-                            <field name="item_material_ids">
+                            <group>
+                                <field name="item_material_ids">
                                 <tree string="Materiales">
                                     <field name="material_id" string="Material" width="70"/>
                                     <field name="quantity" string="Cantidad" width="15"/>
                                     <field name="total_cost" string="Costo Total" width="15"/>
                                 </tree>
                             </field>
+                            <field name="total_cost_material"/>
+                            </group>
                             <group string="Opcionales" >
                                 <field name="complete_top"/>
                                 <field name="strip_quantity"/>
@@ -83,14 +86,14 @@
                             <field name="front_wood"/>
                         </group>
                         <separator/>
-                        <group>
+                        <group string="Accesorios Adicionales">
                             <field name="item_accessory_ids">
                                     <tree string="Accesorios Adicionales">
                                         <field name="accessory_id" string="Accesorio" width="70"/>
                                         <field name="quantity" string="Cantidad" width="15"/>
                                         <field name="total_cost" string="Costo Total" width="15"/>
                                     </tree>
-                                </field>
+                            </field>
                             <field name="total_accessorys"/>
                             <field name="total_hours_acce"/>
                         </group>
@@ -112,6 +115,17 @@
                                     <field name="bottom" string="Borde Inferior"/>
                                     <field name="edgeMeters"/>
                                 </tree>
+                            </field>
+                        </group>
+                        <group string="Resumen de Cortes">
+                            <field name="resume_cut">
+                                    <tree string="Resumen">
+                                        <field name="module_id" width="40"/>
+                                        <field name="material_id" width="15"/>
+                                        <field name="total_m2" width="15"/>
+                                        <field name="material_cost" width="15"/>
+                                        <field name="wood_quantity" width="15"/>
+                                    </tree>
                             </field>
                         </group>
                         <group string="Costos Totales">

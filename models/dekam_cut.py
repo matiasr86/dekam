@@ -9,7 +9,7 @@ class Cut(models.Model):
     wood = fields.Many2one('dekam.material',domain=[('isWood', '=', True)] , string="Madera", required=True)
     length = fields.Float (string="Largo", required=True)
     width = fields.Float (string="Ancho", required=True)
-    squareMeters = fields.Float(string="Mts2", compute="_compute_square_meters", store=True)
+    squareMeters = fields.Float(string="Total m²", compute="_compute_square_meters", store=True)
     edge = fields.Many2one ('dekam.edge', string="Canto")
     left = fields.Boolean(string="Izquierdo")
     right = fields.Boolean(string="Derecho")
