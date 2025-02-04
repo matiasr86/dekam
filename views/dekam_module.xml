@@ -137,6 +137,7 @@
                             </field>
                         </group>
                         <group string="Costos Totales">
+                            <field name="total_hours"/>
                             <field name="total_cost"/>
                         </group>
                     </sheet>

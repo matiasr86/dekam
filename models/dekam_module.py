@@ -29,17 +29,13 @@ class Module(models.Model):
     front_wood = fields.Many2one('dekam.material', string="Madera Frente")
     item_accessory_ids = fields.One2many('dekam.item.accessory', 'module_id', string="Accesorios")
     total_accessorys = fields.Float(string="Costo Accesorios", compute="_compute_total_accessory", store=True)
-    total_hours_acce = fields.Float(string="Horas de Trabajo", compute="_compute_total_hours", store=True)
+    total_hours_acce = fields.Float(string="Horas de Trabajo", compute="_compute_total_hours_acc", store=True)
     total_workforce_acce = fields.Float(string="Costo ", compute="_compute_total_workforce", store=True)
-    total_cost = fields.Float(string="Costo Total del Módulo", compute="_compute_total_cost", store=True)
     cuts = fields.One2many('dekam.cut', 'module_id' , string="Cortes")
     resume_cut = fields.One2many('dekam.resume.cut', 'module_id' , string="Resumen Cortes")
     resume_edge = fields.One2many('dekam.resume.edge', 'module_id', string="Resumen Canto")
-
-    @api.depends('item_material_ids.total_cost')
-    def _compute_total_cost(self):
-        for record in self:
-            record.total_cost = sum(item.total_cost for item in record.item_material_ids)
+    total_cost = fields.Float(string="Costo Total del Módulo", compute="_compute_total_cost", store=True)
+    total_hours = fields.Float(string="Horas Totales de Trabajo", compute="_compute_total_hours", store=True)
 
 
     @api.depends('item_door_ids.total_cost')
@@ -73,10 +69,9 @@ class Module(models.Model):
             record.total_accessorys = sum(item.total_cost for item in record.item_accessory_ids) + record.total_workforce_acce
 
     @api.depends('item_accessory_ids.total_hours')
-    def _compute_total_hours(self):
+    def _compute_total_hours_acc(self):
         for record in self:
             record.total_hours_acce = sum(item.total_hours for item in record.item_accessory_ids)
-
 
     @api.depends('total_hours_acce')
     def _compute_total_workforce(self):
@@ -84,7 +79,6 @@ class Module(models.Model):
             workforce = self.env['dekam.workforce'].search([], limit=1)
             cost_per_hour = workforce.cost_per_hour
             record.total_workforce_acce = (record.total_hours_acce * cost_per_hour)
-
 
     def create_cut_list(self):
         """
@@ -108,7 +102,6 @@ class Module(models.Model):
                 self.env['dekam.cut'].create(cut_vals)
 
             record._generate_resume()
-
 
     def _generate_box_cuts(self):
         """
@@ -409,4 +402,18 @@ class Module(models.Model):
                         'edge_id': cut['edge'][0],
                         'total_mt': cut['edgeMeters'] / 1000,  # Convertir mm a metros
                     })
+
+
+    @api.depends('box_work_hours', 'total_hours_door', 'total_hours_box', 'total_hours_acce')
+    def _compute_total_hours(self):
+        for record in self:
+            record.total_hours = record.box_work_hours + record.total_hours_door + record.total_hours_box + record.total_hours_acce
+
+    @api.depends('total_hours','total_cost_material', 'total_cost_door', 'total_cost_box', 'total_accessorys', 'resume_cut', 'resume_edge')
+    def _compute_total_cost(self):
+        for record in self:
+            workforce = self.env['dekam.workforce'].search([], limit=1)
+            total_wood = sum(item.material_cost for item in record.resume_cut)
+            total_edge = sum(item.edge_cost for item in record.resume_edge)
+            record.total_cost = (workforce.cost_per_hour * record.total_hours) + total_wood + total_edge
 
