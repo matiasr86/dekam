@@ -376,27 +376,8 @@ class Module(models.Model):
             if record.resume_cut:
                 record.resume_cut.unlink()
 
-            # Obtener resumen de cortes por material
-            cuts_resume = cuts.read_group(
-                [('wood', '!=', False)],  # Asegurar que haya madera asignada
-                ['wood', 'squareMeters:sum'],
-                ['wood']
-            )
-
-            # Crear instancias para los cortes
-            for cut in cuts_resume:
-                self.env['dekam.resume.cut'].create({
-                    'module_id': record.id,
-                    'material_id': cut['wood'][0],  # Obtener el ID del material (madera)
-                    'total_m2': cut['squareMeters'],
-                })
-
-    def _generar_resumen_edges(self):
-
-        for record in self:
-            cuts = record.cuts
-            if record.resume_cut:
-                record.resume_cut.unlink()
+            if record.resume_edge:
+                record.resume_edge.unlink()
 
             # Obtener resumen de cortes por material
             cuts_resume = cuts.read_group(
@@ -408,8 +389,8 @@ class Module(models.Model):
             # Obtener resumen de cortes por material
             edges_resume = cuts.read_group(
                 [('wood', '!=', False)],  # Asegurar que haya madera asignada
-                ['wood', 'edgeMeters:sum'],
-                ['wood']
+                ['edge', 'edgeMeters:sum'],
+                ['edge']
             )
 
             # Crear instancias para los cortes
@@ -420,11 +401,12 @@ class Module(models.Model):
                     'total_m2': cut['squareMeters'],
                 })
 
-            # Crear instancias para los cortes
-            for cut in cuts_resume:
-                self.env['dekam.resume.edge'].create({
-                    'module_id': record.id,
-                    'edge_id': cut['wood'][0],  # Obtener el ID del material (madera)
-                    'total_m2': cut['squareMeters'],
-                })
+            # Crear instancias para los cantos
+            for cut in edges_resume:
+                if cut['edge']:  # Verificar si 'edge' tiene un valor válido
+                    self.env['dekam.resume.edge'].create({
+                        'module_id': record.id,
+                        'edge_id': cut['edge'][0],
+                        'total_mt': cut['edgeMeters'] / 1000,  # Convertir mm a metros
+                    })
 

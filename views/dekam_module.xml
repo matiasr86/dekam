@@ -119,12 +119,20 @@
                         </group>
                         <group string="Resumen de Cortes">
                             <field name="resume_cut">
-                                    <tree string="Resumen">
+                                    <tree string="Resumen Madera">
                                         <field name="module_id" width="40"/>
                                         <field name="material_id" width="15"/>
                                         <field name="total_m2" width="15"/>
-                                        <field name="material_cost" width="15"/>
                                         <field name="wood_quantity" width="15"/>
+                                        <field name="material_cost" width="15"/>
+                                    </tree>
+                            </field>
+                            <field name="resume_edge">
+                                    <tree string="Resumen Canto">
+                                        <field name="module_id" width="65"/>
+                                        <field name="edge_id" width="15"/>
+                                        <field name="total_mt" width="15"/>
+                                        <field name="edge_cost" width="15"/>
                                     </tree>
                             </field>
                         </group>
