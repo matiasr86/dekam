@@ -28,27 +28,39 @@
                             <field name="name" string="Nombre"/>
                             <field name="lines" widget="many2many_tags" options="{'no_create': True}" />
                             <field name="is_wood" string="En Madera?"/>
+                            <field name="edge" string="Canto"/>
                         </group>
                         <group string="Dimensiones">
                             <field name="elbow" widget="selection" string="Codo"/>
                             <field name="light_horizontal" string="Luz Horizontal (mm)"/>
                             <field name="light_vertical" string="Luz Vertical (mm)"/>
                         </group>
-                        <group string="Materiales">
-                            <field name="edge" string="Canto"/>
-                        </group>
-                        <group string="Accesorios">
-                            <field name="item_accessory_ids">
-                                <tree string="Accesorios">
-                                    <field name="accessory_id" string="Accesorio"/>
-                                    <field name="quantity" string="Cantidad"/>
-                                    <field name="total_cost" string="Costo Total"/>
-                                </tree>
-                            </field>
+                        <group>
+                            <group string="Materiales">
+                                <field name="item_material_ids">
+                                    <tree string="Materiales">
+                                        <field name="material_id" />
+                                        <field name="quantity" />
+                                        <field name="total_cost"/>
+                                    </tree>
+                                </field>
+                                <field name="total_materials"/>
+                            </group>
+                            <group string="Accesorios">
+                                <field name="item_accessory_ids">
+                                    <tree string="Accesorios">
+                                        <field name="accessory_id" string="Accesorio"/>
+                                        <field name="quantity" string="Cantidad"/>
+                                        <field name="total_cost" string="Costo Total"/>
+                                    </tree>
+                                </field>
+                                <field name="total_accessorys"/>
+                            </group>
                         </group>
                         <group string="Trabajo">
                             <field name="working_hours"/>
                             <field name="total_workforce"/>
+                            <field name="total_hours"/>
                             <field name="total_cost" />
                         </group>
                     </sheet>

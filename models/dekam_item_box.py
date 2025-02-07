@@ -16,7 +16,7 @@ class ItemBox(models.Model):
         for record in self:
             record.total_cost = record.quantity * (record.box.total_cost or 0.0)
 
-    @api.depends('box.working_hours', 'box.total_hours', 'quantity')
+    @api.depends('box.total_hours', 'quantity')
     def _compute_total_hours(self):
         for record in self:
             record.total_hours = record.quantity * (record.box.total_hours or 0.0)

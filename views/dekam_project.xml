@@ -1,0 +1,75 @@
+<odoo>
+    <data>
+        <!-- Vista Tree -->
+        <record id="view_dekam_project_tree" model="ir.ui.view">
+            <field name="name">dekam.project.tree</field>
+            <field name="model">dekam.project</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Nombre"/>
+                    <field name="lines" string="Línea"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista Form -->
+        <record id="view_dekam_project_form" model="ir.ui.view">
+            <field name="name">dekam.project.form</field>
+            <field name="model">dekam.project</field>
+            <field name="arch" type="xml">
+                <form string="Proyecto">
+                    <sheet>
+                        <group>
+                            <field name="name" string="Nombre"/>
+                            <field name="lines" widget="many2one" string="Línea"/>
+                        </group>
+                        <group string="Módulos">
+                            <field name="item_module_ids">
+                                <tree string="Módulos">
+                                    <field name="module_id"/>
+									<field name="quantity"/>
+									<field name="total_cost"/>
+									<field name="total_hours"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
+                            <field name="total_accessorys"/>
+                            <field name="total_materials"/>
+                        </group>
+                        <notebook>
+                            <!-- Pestaña para Resumen de Cortes -->
+                            <page string="Resumen de Cortes">
+                                <field name="resume_cut_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="material_id"/>
+                                        <field name="total_m2"/>
+                                        <field name="material_cost"/>
+                                        <field name="wood_quantity"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <!-- Pestaña para Resumen de Cantos -->
+                            <page string="Resumen de Cantos">
+                                <field name="resume_edge_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="edge_id"/>
+                                        <field name="total_mt"/>
+                                        <field name="edge_cost"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción para mostrar la vista -->
+        <record id="dekam_project_action" model="ir.actions.act_window">
+            <field name="name">Proyectos</field>
+            <field name="res_model">dekam.project</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

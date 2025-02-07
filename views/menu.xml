@@ -68,6 +68,12 @@
                 action="dekam_module_action"
             />
 
+            <menuitem
+                id="dekam_project_menu_action"
+                name="Proyectos"
+                action="dekam_project_action"
+            />
+
         </menuitem>
 
 

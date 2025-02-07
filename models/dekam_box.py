@@ -39,6 +39,7 @@ class Box(models.Model):
     total_materials = fields.Float(string="Costo Materiales", compute="_compute_total_material", store=True)
     total_hours = fields.Float(string="Horas Totales", compute="_compute_total_hours", store=True)
     total_workforce = fields.Float(string="Costo Mano de Obra", compute="_compute_total_workforce", store=True)
+
     total_cost = fields.Float(string="Costo Total (Sin Madera)", compute="_compute_total_cost", store=True)
 
 
@@ -75,3 +76,6 @@ class Box(models.Model):
             record._compute_total_workforce()
             record._compute_total_hours()
             record._compute_total_cost()
+
+
+

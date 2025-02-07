@@ -33,3 +33,7 @@ access_dekam_resume_cut_admin,access_dekam_resume_cut_admin,model_dekam_resume_c
 access_dekam_resume_cut_user,access_dekam_resume_cut_user,model_dekam_resume_cut,base.group_user,1,0,0,0
 access_dekam_resume_edge_admin,access_dekam_resume_edge_admin,model_dekam_resume_edge,base.group_system,1,1,1,1
 access_dekam_resume_edge_user,access_dekam_resume_edge_user,model_dekam_resume_edge,base.group_user,1,0,0,0
+access_dekam_project_admin,access_dekam_project_admin,model_dekam_project,base.group_system,1,1,1,1
+access_dekam_project_user,access_dekam_project_user,model_dekam_project,base.group_user,1,0,0,0
+access_dekam_item_module_admin,access_dekam_item_module_admin,model_dekam_item_module,base.group_system,1,1,1,1
+access_dekam_item_module_user,access_dekam_item_module_user,model_dekam_item_module,base.group_user,1,0,0,0

@@ -18,7 +18,7 @@ class ItemDoor(models.Model):
             record.total_cost = record.quantity * (record.door_id.total_cost or 0.0)
 
 
-    @api.depends('door_id.working_hours', 'quantity')
+    @api.depends('door_id.total_hours', 'quantity')
     def _compute_total_hours(self):
         for record in self:
-            record.total_hours = record.quantity * (record.door_id.working_hours or 0.0)
+            record.total_hours = record.quantity * (record.door_id.total_hours or 0.0)

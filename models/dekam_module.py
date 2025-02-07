@@ -66,7 +66,7 @@ class Module(models.Model):
     @api.depends('item_accessory_ids.total_cost', 'total_workforce_acce')
     def _compute_total_accessory(self):
         for record in self:
-            record.total_accessorys = sum(item.total_cost for item in record.item_accessory_ids) + record.total_workforce_acce
+            record.total_accessorys = sum(item.total_cost for item in record.item_accessory_ids)
 
     @api.depends('item_accessory_ids.total_hours')
     def _compute_total_hours_acc(self):
