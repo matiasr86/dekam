@@ -4,7 +4,7 @@ class DekamResumeEdge(models.Model):
     _name = "dekam.resume.edge"
     _description = "Resumen de Cantos por Material"
 
-    module_id = fields.Many2one("dekam.module", string="Módulo", required=True)
+    module_id = fields.Many2one("dekam.module", string="Módulo", required=True, ondelete='cascade')
     edge_id = fields.Many2one("dekam.edge", string="Canto", required=True)
     total_mt = fields.Float(string="Total mts")
     edge_cost = fields.Float(string="Total $", compute="_compute_edge_cost", store=True)

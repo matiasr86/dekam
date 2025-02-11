@@ -1,81 +1,34 @@
 <odoo>
-    <menuitem id="dekam_menu_root" name="Gestor de Proyectos Dekam" sequence="0">
+    <data>
+        <!-- Menú principal -->
+        <menuitem id="dekam_menu_root" name="Gestor de Proyectos Dekam" sequence="0"/>
 
-        <!-- Primera sección: -->
-        <menuitem id="dekam_collections_menu" name="Configuraciones" sequence="1">
-            <menuitem
-                id="dekam_background_menu_action"
-                name="Fondos de Módulo"
-                action="dekam_background_action"
-            />
+        <!-- Menú: Proyectos -->
+        <menuitem id="dekam_menu_projects" name="Proyectos" parent="dekam_menu_root" sequence="1"/>
+        <menuitem id="dekam_project_menu_action" name="Proyectos" action="dekam_project_action" parent="dekam_menu_projects"/>
 
-            <menuitem
-                id="dekam_workforce_menu_action"
-                name="Mano de Obra"
-                action="dekam_workforce_action"
-            />
+        <!-- Menú: Módulos -->
+        <menuitem id="dekam_menu_modules" name="Módulos" parent="dekam_menu_root" sequence="2"/>
+        <menuitem id="dekam_box_menu_action" name="Cajones" action="dekam_box_action" parent="dekam_menu_modules"/>
+        <menuitem id="dekam_module_menu_action" name="Módulos" action="dekam_module_action" parent="dekam_menu_modules"/>
+        <menuitem id="dekam_door_menu_action" name="Puertas" action="dekam_door_action" parent="dekam_menu_modules"/>
 
-            <menuitem
-                id="dekam_box_menu_action"
-                name="Cajones"
-                action="dekam_box_action"
-            />
-            <menuitem
-                id="dekam_door_menu_action"
-                name="Puertas"
-                action="dekam_door_action"
-            />
+        <!-- Menú: Cortes -->
+        <menuitem id="dekam_menu_cuts" name="Cortes" parent="dekam_menu_root" sequence="3"/>
+        <menuitem id="dekam_cut_menu_action" name="Cortes por Módulo" action="dekam_cut_action" parent="dekam_menu_cuts"/>
+        <menuitem id="dekam_project_cut_menu_action" name="Cortes por Proyecto" action="dekam_project_cut_action" parent="dekam_menu_cuts"/>
 
-            <menuitem
-                id="dekam_line_menu_action"
-                name="Lineas de Calidad"
-                action="dekam_line_action"
-            />
+        <!-- Menú: Materiales -->
+        <menuitem id="dekam_menu_materials" name="Materiales" parent="dekam_menu_root" sequence="4"/>
+        <menuitem id="dekam_accessory_menu_action" name="Accesorios" action="dekam_accessory_action" parent="dekam_menu_materials"/>
+        <menuitem id="dekam_edge_menu_action" name="Cantos" action="dekam_edge_action" parent="dekam_menu_materials"/>
+        <menuitem id="dekam_material_menu_action" name="Materiales" action="dekam_material_action" parent="dekam_menu_materials"/>
 
-            <menuitem
-                id="dekam_url_menu_action"
-                name="Url Proveedores"
-                action="dekam_url_action"
-            />
-
-            <menuitem
-                id="dekam_material_menu_action"
-                name="Materiales"
-                action="dekam_material_action"
-            />
-
-            <menuitem
-                id="dekam_cut_menu_action"
-                name="Cortes"
-                action="dekam_cut_action"
-            />
-
-            <menuitem
-                id="dekam_edge_menu_action"
-                name="Cantos"
-                action="dekam_edge_action"
-            />
-
-            <menuitem
-                id="dekam_accessory_menu_action"
-                name="Accesorios"
-                action="dekam_accessory_action"
-            />
-
-            <menuitem
-                id="dekam_module_menu_action"
-                name="Modulos"
-                action="dekam_module_action"
-            />
-
-            <menuitem
-                id="dekam_project_menu_action"
-                name="Proyectos"
-                action="dekam_project_action"
-            />
-
-        </menuitem>
-
-
-    </menuitem>
+        <!-- Menú: Configuración -->
+        <menuitem id="dekam_menu_settings" name="Configuración" parent="dekam_menu_root" sequence="5"/>
+        <menuitem id="dekam_background_menu_action" name="Fondos de Módulo" action="dekam_background_action" parent="dekam_menu_settings"/>
+        <menuitem id="dekam_line_menu_action" name="Líneas de Calidad" action="dekam_line_action" parent="dekam_menu_settings"/>
+        <menuitem id="dekam_workforce_menu_action" name="Mano de Obra" action="dekam_workforce_action" parent="dekam_menu_settings"/>
+        <menuitem id="dekam_url_menu_action" name="URL Proveedores" action="dekam_url_action" parent="dekam_menu_settings"/>
+    </data>
 </odoo>

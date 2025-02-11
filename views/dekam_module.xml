@@ -59,7 +59,12 @@
                         </group>
                         <separator/>
                         <group string="Puertas">
-                            <field name="is_door_inside"/>
+                            <group>
+                                <field name="is_door_inside"/>
+                            </group>
+                            <group>
+                                <field name="orientation"/>
+                            </group>
                             <field name="item_door_ids">
                                 <tree string="Puertas">
                                     <field name="door_id" string="Puerta" width="70"/>
@@ -84,6 +89,7 @@
                         </group>
                         <group>
                             <field name="front_wood"/>
+                            <field name="grain"/>
                         </group>
                         <separator/>
                         <group string="Accesorios Adicionales">

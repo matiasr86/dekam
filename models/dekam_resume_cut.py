@@ -4,11 +4,12 @@ class DekamResumeCut(models.Model):
     _name = "dekam.resume.cut"
     _description = "Resumen de Cortes por Material"
 
-    module_id = fields.Many2one("dekam.module", string="Módulo", required=True)
+    module_id = fields.Many2one("dekam.module", string="Módulo", required=True, ondelete='cascade')
     material_id = fields.Many2one("dekam.material", string="Material", required=True)
     total_m2 = fields.Float(string="Total m²")
     material_cost = fields.Float(string="Total $", compute="_compute_material_cost", store=True)
     wood_quantity = fields.Float(string="Placas", compute="_compute_wood_quantity", store=True)
+
 
 
     @api.depends('total_m2', 'material_id')

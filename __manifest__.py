@@ -39,6 +39,8 @@
         'views/dekam_module.xml',
         'views/dekam_door.xml',
         'views/dekam_project.xml',
+        'views/dekam_project_cut.xml',
         'views/menu.xml',
+        'demo/demo.xml',
     ],
 }

@@ -1,11 +1,12 @@
 <odoo>
+    <!-- Vista Tree (Lista) -->
     <record id="view_dekam_cut_tree" model="ir.ui.view">
         <field name="name">dekam.cut.tree</field>
         <field name="model">dekam.cut</field>
         <field name="arch" type="xml">
             <tree string="Cortes">
                 <field name="name"/>
-                <field name="quantity_project"/>
+                <field name="quantity"/>
                 <field name="length"/>
                 <field name="width"/>
                 <field name="squareMeters"/>
@@ -14,28 +15,30 @@
                 <field name="right"/>
                 <field name="top"/>
                 <field name="bottom"/>
+                <field name="grain"/>
+                <field name="module_id"/>
             </tree>
         </field>
     </record>
 
+    <!-- Vista de búsqueda -->
     <record id="view_dekam_cut_search" model="ir.ui.view">
         <field name="name">dekam.cut.search</field>
         <field name="model">dekam.cut</field>
         <field name="arch" type="xml">
-            <search>
+            <search string="Buscar Cortes">
                 <field name="name"/>
                 <field name="wood"/>
                 <field name="module_id"/>
-                <field name="project_id"/>
+
                 <group expand="0" string="Agrupar por">
-                    <filter name="group_by_project" string="Proyecto" domain="[]" context="{'group_by': 'project_id'}"/>
                     <filter name="group_by_module" string="Módulo" domain="[]" context="{'group_by': 'module_id'}"/>
                 </group>
             </search>
         </field>
     </record>
 
-
+    <!-- Vista Formulario -->
     <record id="view_dekam_cut_form" model="ir.ui.view">
         <field name="name">dekam.cut.form</field>
         <field name="model">dekam.cut</field>
@@ -49,6 +52,7 @@
                         <field name="width"/>
                         <field name="squareMeters" readonly="1"/>
                         <field name="edge"/>
+                        <field name="module_id"/>
                     </group>
                     <group>
                         <field name="left"/>
@@ -61,10 +65,13 @@
         </field>
     </record>
 
+    <!-- Acción para abrir la vista -->
     <record id="dekam_cut_action" model="ir.actions.act_window">
-        <field name="name">Cortes</field>
+        <field name="name">Cortes por Proyecto</field>
         <field name="res_model">dekam.cut</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,search</field>
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
     </record>
 
 </odoo>

@@ -18,6 +18,9 @@
             <field name="model">dekam.project</field>
             <field name="arch" type="xml">
                 <form string="Proyecto">
+                    <header>
+                        <button name="generate_result" string="Generar Resultados" type="object" class="btn-primary" />
+                    </header>
                     <sheet>
                         <group>
                             <field name="name" string="Nombre"/>
@@ -34,14 +37,28 @@
                             </field>
                         </group>
                         <group>
-                            <field name="total_accessorys"/>
-                            <field name="total_materials"/>
+                            <group>
+                                <field name="total_accessorys"/>
+                                <field name="total_materials"/>
+                                <field name="total_woods"/>
+                                <field name="total_edges"/>
+                                <field name="total_hours"/>
+                                <field name="total_cost_hours"/>
+                                <field name="total_cost"/>
+                            </group>
+                            <group>
+                                <field name="total_sale_accessorys"/>
+                                <field name="total_sale_materials"/>
+                                <field name="total_sale_edges"/>
+                                <field name="total_sale_work_hs"/>
+                                <field name="total_sale"/>
+                            </group>
                         </group>
                         <notebook>
-                            <!-- Pestaña para Resumen de Cortes -->
+                            <!-- Resumen de Cortes -->
                             <page string="Resumen de Cortes">
                                 <field name="resume_cut_ids" nolabel="1">
-                                    <tree editable="bottom">
+                                    <tree>
                                         <field name="material_id"/>
                                         <field name="total_m2"/>
                                         <field name="material_cost"/>
@@ -49,10 +66,11 @@
                                     </tree>
                                 </field>
                             </page>
-                            <!-- Pestaña para Resumen de Cantos -->
+
+                            <!-- Resumen de Cantos -->
                             <page string="Resumen de Cantos">
                                 <field name="resume_edge_ids" nolabel="1">
-                                    <tree editable="bottom">
+                                    <tree>
                                         <field name="edge_id"/>
                                         <field name="total_mt"/>
                                         <field name="edge_cost"/>
