@@ -1,55 +1,67 @@
-<odoo>
-    <record id="dekam_background_1" model="dekam.background">
+<odoo noupdate="1">
+    <data>
+        <record id="dekam_background_1" model="dekam.background">
         <field name="name">Ranurado</field>
         <field name="background_type">Ranurado</field>
         <field name="work_hours">2.5</field>
-    </record>
+        </record>
 
-    <record id="dekam_background_2" model="dekam.background">
-        <field name="name">Engrampado</field>
-        <field name="background_type">Engrampado</field>
-        <field name="work_hours">3.0</field>
-    </record>
+        <record id="dekam_background_2" model="dekam.background">
+            <field name="name">Engrampado</field>
+            <field name="background_type">Engrampado</field>
+            <field name="work_hours">3.0</field>
+        </record>
 
-    <record id="dekam_background_3" model="dekam.background">
-        <field name="name">MDF Entarugado</field>
-        <field name="background_type">MDF Entarugado</field>
-        <field name="work_hours">4.0</field>
-    </record>
+        <record id="dekam_background_3" model="dekam.background">
+            <field name="name">MDF Entarugado</field>
+            <field name="background_type">MDF Entarugado</field>
+            <field name="work_hours">4.0</field>
+        </record>
 
-    <record id="dekam_background_4" model="dekam.background">
-        <field name="name">Sin Fondo</field>
-        <field name="background_type">Sin Fondo</field>
-        <field name="work_hours">0.0</field>
-    </record>
+        <record id="dekam_background_4" model="dekam.background">
+            <field name="name">Sin Fondo</field>
+            <field name="background_type">Sin Fondo</field>
+            <field name="work_hours">0.0</field>
+        </record>
 
 
-    <record id="dekam_line_1" model="dekam.line">
-        <field name="name">Línea Básica</field>
-        <field name="background" ref="dekam_background_2"/>
-        <field name="materialMargin">10.0</field>
-        <field name="accessoriesMargin">15.0</field>
-        <field name="edgeMargin">12.5</field>
-        <field name="workForceMargin">20.0</field>
+        <record id="dekam_line_1" model="dekam.line">
+            <field name="name">Línea Básica</field>
+            <field name="background" ref="dekam_background_2"/>
+            <field name="materialMargin">10.0</field>
+            <field name="accessoriesMargin">15.0</field>
+            <field name="edgeMargin">12.5</field>
+            <field name="workForceMargin">20.0</field>
 
-    </record>
+        </record>
 
-    <record id="dekam_line_2" model="dekam.line">
-        <field name="name">Línea Premium</field>
-        <field name="background" ref="dekam_background_2"/>
-        <field name="materialMargin">20.0</field>
-        <field name="accessoriesMargin">18.0</field>
-        <field name="edgeMargin">14.0</field>
-        <field name="workForceMargin">25.0</field>
+        <record id="dekam_line_2" model="dekam.line">
+            <field name="name">Línea Premium</field>
+            <field name="background" ref="dekam_background_2"/>
+            <field name="materialMargin">20.0</field>
+            <field name="accessoriesMargin">18.0</field>
+            <field name="edgeMargin">14.0</field>
+            <field name="workForceMargin">25.0</field>
 
-    </record>
+        </record>
 
-    <record id="dekam_line_3" model="dekam.line">
-        <field name="name">Línea de Lujo</field>
-        <field name="background" ref="dekam_background_1"/>
-        <field name="materialMargin">25.0</field>
-        <field name="accessoriesMargin">22.0</field>
-        <field name="edgeMargin">18.0</field>
-        <field name="workForceMargin">30.0</field>
-    </record>
+        <record id="dekam_line_3" model="dekam.line">
+            <field name="name">Línea de Lujo</field>
+            <field name="background" ref="dekam_background_1"/>
+            <field name="materialMargin">25.0</field>
+            <field name="accessoriesMargin">22.0</field>
+            <field name="edgeMargin">18.0</field>
+            <field name="workForceMargin">30.0</field>
+        </record>
+
+        <record id="dekam_line_4" model="dekam.line">
+            <field name="name">Línea Especial</field>
+            <field name="background" ref="dekam_background_3"/>
+            <field name="materialMargin">300</field>
+            <field name="accessoriesMargin">150</field>
+            <field name="edgeMargin">150</field>
+            <field name="workForceMargin">200</field>
+        </record>
+    </data>
+
 </odoo>

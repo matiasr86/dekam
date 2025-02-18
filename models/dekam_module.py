@@ -20,7 +20,6 @@ class Module(models.Model):
     width = fields.Float (string="Ancho", required=True)
     depth = fields.Float (string="Profundidad", required=True)
     box_work_hours = fields.Float(string="Horas de Fabricación (Caja)", required=True)
-    is_door_inside = fields.Boolean(string="Puerta Interior?")
     orientation = fields.Selection([
         ('horizontal', 'Horizontal'),
         ('vertical', 'Vertical')
@@ -312,75 +311,47 @@ class Module(models.Model):
         return cuts
 
     def _generate_door_cuts(self):
-
         for record in self:
             cuts = []
-            if self.item_door_ids:
+            if not record.item_door_ids:
+                return cuts
+
+            door_quantity = sum(item.quantity for item in record.item_door_ids)
+
+            for door in record.item_door_ids:
+                base_cut = {
+                    'name': f'Puerta {door.door_id.name}',
+                    'quantity': door.quantity,
+                    'wood': record.front_wood.id,
+                    'edge': door.door_id.edge.id,
+                    'left': True,
+                    'right': True,
+                    'top': True,
+                    'bottom': True,
+                    'grain': record.grain,
+                }
+
                 if record.orientation == 'vertical':
-                    for door in self.item_door_ids:
-                        door_quantity = sum(item.quantity for item in self.item_door_ids)
-                        if record.is_door_inside:
-                            cuts.append({
-                                'name': f'Puerta {door.door_id.name}',
-                                'quantity': 1 * door.quantity,
-                                'wood': record.front_wood.id,
-                                'length': record.high - (record.wood.thickness * 2) - (
-                                            door.door_id.edge.thickness * 2) - door.door_id.light_vertical,
-                                'width': (record.width - (record.wood.thickness * 2) - (
-                                            door.door_id.edge.thickness * 2) - door.door_id.light_horizontal) / door_quantity,
-                                'edge': door.door_id.edge.id,
-                                'left': True,
-                                'right': True,
-                                'top': True,
-                                'bottom': True,
-                                'grain': record.grain,
-                            })
-                        else:
-                            cuts.append({
-                                'name': f'Puerta {door.door_id.name}',
-                                'quantity': 1 * door.quantity,
-                                'wood': record.front_wood.id,
-                                'length': record.high - (door.door_id.edge.thickness * 2) - door.door_id.light_vertical,
-                                'width': (record.width - (
-                                            door.door_id.edge.thickness * 2) - door.door_id.light_horizontal) / door_quantity,
-                                'edge': door.door_id.edge.id,
-                                'left': True,
-                                'right': True,
-                                'top': True,
-                                'bottom': True,
-                                'grain': record.grain,
-                            })
+                    base_cut['length'] = record.high - (door.door_id.edge.thickness * 2) - door.door_id.light_vertical
+                else:  # Horizontal
+                    base_cut['width'] = record.high - (door.door_id.edge.thickness * 2) - door.door_id.light_vertical
+
+                if door.door_id.elbow == 18:
+                    adjustment = record.wood.thickness * 2
+                elif door.door_id.elbow == 0:
+                    adjustment = 0
                 else:
-                    for door in self.item_door_ids:
-                        door_quantity = sum(item.quantity for item in self.item_door_ids)
-                        if record.is_door_inside:
-                            cuts.append({
-                                'name': f'Puerta {door.door_id.name}',
-                                'quantity': 1 * door.quantity,
-                                'wood': record.front_wood.id,
-                                'length': (record.width - (record.wood.thickness * 2) - (door.door_id.edge.thickness * 2) - door.door_id.light_horizontal) / door_quantity,
-                                'width': record.high - (record.wood.thickness * 2) - (door.door_id.edge.thickness * 2) - door.door_id.light_vertical,
-                                'edge': door.door_id.edge.id,
-                                'left': True,
-                                'right': True,
-                                'top': True,
-                                'bottom': True,
-                                'grain': record.grain,
-                            })
-                        else:
-                            cuts.append({
-                                'name': f'Puerta {door.door_id.name}',
-                                'quantity': 1 * door.quantity,
-                                'wood': record.front_wood.id,
-                                'length': (record.width - (door.door_id.edge.thickness * 2) - door.door_id.light_horizontal) / door_quantity,
-                                'width': record.high - (door.door_id.edge.thickness * 2) - door.door_id.light_vertical,
-                                'edge': door.door_id.edge.id,
-                                'left': True,
-                                'right': True,
-                                'top': True,
-                                'bottom': True,
-                                'grain': record.grain,
-                            })
+                    adjustment = record.wood.thickness / 2
+
+                if record.orientation == 'vertical':
+                    base_cut['width'] = (record.width - (
+                                door.door_id.edge.thickness * 2) - door.door_id.light_horizontal - adjustment) / door_quantity
+                else:
+                    base_cut['length'] = (record.width - (
+                                door.door_id.edge.thickness * 2) - door.door_id.light_horizontal - adjustment) / door_quantity
+
+                cuts.append(base_cut)
+
             return cuts
 
     def _generate_background_cuts(self):
@@ -453,13 +424,14 @@ class Module(models.Model):
                     self.env['dekam.resume.edge'].create({
                         'module_id': record.id,
                         'edge_id': cut['edge'][0],
-                        'total_mt': cut['edgeMeters'],  # Convertir mm a metros
+                        'total_mt': cut['edgeMeters'] / 1000,  # Convertir mm a metros
                     })
 
     @api.depends('box_work_hours', 'total_hours_door', 'total_hours_box', 'total_hours_acce')
     def _compute_total_hours(self):
         for record in self:
-            record.total_hours = record.box_work_hours + record.total_hours_door + record.total_hours_box + record.total_hours_acce
+            background_hours = record.line.background.work_hours
+            record.total_hours = record.box_work_hours + record.total_hours_door + record.total_hours_box + record.total_hours_acce + background_hours
 
     @api.depends('total_hours','total_cost_material', 'total_cost_door', 'total_cost_box', 'total_accessorys', 'resume_cut', 'resume_edge')
     def _compute_total_cost(self):

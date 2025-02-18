@@ -60,9 +60,6 @@
                         <separator/>
                         <group string="Puertas">
                             <group>
-                                <field name="is_door_inside"/>
-                            </group>
-                            <group>
                                 <field name="orientation"/>
                             </group>
                             <field name="item_door_ids">
