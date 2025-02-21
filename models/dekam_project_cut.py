@@ -17,7 +17,6 @@ class ProjectCut(models.Model):
     right = fields.Boolean(string="Derecho")
     top = fields.Boolean(string="Superior")
     bottom = fields.Boolean(string="Inferior")
-    grain = fields.Char(string="Orientación Veta")
     module_id = fields.Many2one('dekam.module', string="Módulo")
     edgeMeters = fields.Float(string="Canto Mts", compute="_compute_edge_meters")
     project_id = fields.Many2one('dekam.project', string="Proyecto", ondelete="cascade")

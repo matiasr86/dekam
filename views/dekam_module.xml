@@ -86,7 +86,6 @@
                         </group>
                         <group>
                             <field name="front_wood"/>
-                            <field name="grain"/>
                         </group>
                         <separator/>
                         <group string="Accesorios Adicionales">

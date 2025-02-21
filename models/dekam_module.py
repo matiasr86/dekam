@@ -16,7 +16,7 @@ class Module(models.Model):
     with_colum = fields.Boolean(string="Columna Central?")
     colum_quantity = fields.Integer(string="Cantidad de Columnas", required=True)
     strip_width = fields.Float(string="Listones Traseros (mm)", required=True)
-    front_strip_width = fields.Float(string="Listón Frontal (mm)", required=True)
+    front_strip_width = fields.Float(string="Listón Frontal (mm)")
     strip_quantity = fields.Integer(string="Cantidad de Listones", required=True)
     rack_adjust = fields.Boolean(string="Estante Movil?")
     rack_quantity = fields.Integer(string="Cantidad de Estantes", required=True)
@@ -29,11 +29,7 @@ class Module(models.Model):
         ('vertical', 'Vertical')
     ], string="Orientación", default='vertical')
 
-    grain = fields.Selection([
-        ('no', 'No'),
-        ('horizontal', 'Horizontal'),
-        ('vertical', 'Vertical')
-    ], string="Veta", default='no', required=True)
+
     item_door_ids = fields.One2many('dekam.item.door', 'module_id', string="Puertas")
     total_cost_door = fields.Float(string="Costo Total de la Puerta", compute="_compute_total_cost_door", store=True)
     total_hours_door = fields.Float(string="Horas de Trabajo", compute="_compute_total_hours_door", store=True)
@@ -165,7 +161,7 @@ class Module(models.Model):
                 else:
                     cuts.append({
                         'name': f'Caja Listón F. - {record.name}',
-                        'quantity': record.front_strip_quantity,
+                        'quantity': 1,
                         'wood': record.wood.id,
                         'length': record.width - (record.wood.thickness * 2),
                         'width': record.front_strip_width,
@@ -193,8 +189,8 @@ class Module(models.Model):
                         'name': f'Caja Colum - {record.name}',
                         'quantity': record.colum_quantity,
                         'wood': record.wood.id,
-                        'length': record.high - (record.wood.thickness * 2),
-                        'width': record.depth if record.line.background.background_type == "Sin Fondo" else record.depth - 40,
+                        'length': record.high - record.wood.thickness if not record.complete_top else record.high - (record.wood.thickness * 2),
+                        'width': record.depth if (record.line.background.background_type == "Sin Fondo") or (record.line.background.background_type == "Engrampado") else record.depth - 40,
                         'edge': record.edge.id,
                         'left': False,
                         'right': False,
@@ -203,8 +199,8 @@ class Module(models.Model):
                     })
                 if record.rack_quantity > 0:
                     if record.with_colum:
-                        l = record.width - (record.wood.thickness * record.colum_quantity) if not record.rack_adjust else (record.width - (record.wood.thickness * record.colum_quantity)) - 2,
-                        w = record.depth if record.line.background.background_type == "Sin Fondo" else record.depth - 40,
+                        l = record.width - (record.wood.thickness * record.colum_quantity) if not record.rack_adjust else (record.width - (record.wood.thickness * record.colum_quantity)) - 2
+                        w = record.depth if (record.line.background.background_type == "Sin Fondo") or (record.line.background.background_type == "Engrampado") else record.depth - 40
                         cuts.append({
                             'name': f'Caja Est. - {record.name}',
                             'quantity': record.rack_quantity,
@@ -246,7 +242,7 @@ class Module(models.Model):
                             'right': True,
                             'top': True if not drawer.box.with_profile else False,
                             'bottom': True,
-                            'grain': record.grain,
+
                         })
                     else:
                         # Si el Cajon es Externo
@@ -268,7 +264,6 @@ class Module(models.Model):
                             'right': True,
                             'top': True if not drawer.box.with_profile else False,
                             'bottom': True,
-                            'grain': record.grain,
                         })
                     # Cortes Especiales si la totalidad del cajon se hace en MDF
                     if drawer.box.is_lateral_wood:
@@ -362,7 +357,7 @@ class Module(models.Model):
                     'right': True,
                     'top': True,
                     'bottom': True,
-                    'grain': record.grain,
+
                 }
 
                 if record.orientation == 'vertical':

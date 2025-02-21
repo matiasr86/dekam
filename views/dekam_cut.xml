@@ -15,7 +15,6 @@
                 <field name="right"/>
                 <field name="top"/>
                 <field name="bottom"/>
-                <field name="grain"/>
                 <field name="module_id"/>
             </tree>
         </field>

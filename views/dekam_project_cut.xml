@@ -6,18 +6,17 @@
             <field name="model">dekam.project.cut</field>
             <field name="arch" type="xml">
                 <tree string="Cortes del Proyecto">
-                    <field name="name"/>
-                    <field name="quantity"/>
                     <field name="wood"/>
+                    <field name="quantity"/>
                     <field name="length"/>
                     <field name="width"/>
+                    <field name="name"/>
                     <field name="squareMeters"/>
                     <field name="edge"/>
                     <field name="left"/>
                     <field name="right"/>
                     <field name="top"/>
                     <field name="bottom"/>
-                    <field name="grain"/>
                     <field name="module_id"/>
                     <field name="project_id"/>
                 </tree>
@@ -45,7 +44,6 @@
                             <field name="right"/>
                             <field name="top"/>
                             <field name="bottom"/>
-                            <field name="grain"/>
                         </group>
                         <group>
                             <field name="module_id"/>
