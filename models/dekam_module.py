@@ -13,8 +13,12 @@ class Module(models.Model):
     item_material_ids = fields.One2many('dekam.item.material', 'module_id', string="Materiales", required=True)
     total_cost_material = fields.Float(string="Costo Materiales", compute="_compute_total_cost_material", store=True)
     complete_top = fields.Boolean(string="Tapa Superior?")
-    strip_width = fields.Float(string="Ancho de Listones (mm)", required=True)
+    with_colum = fields.Boolean(string="Columna Central?")
+    colum_quantity = fields.Integer(string="Cantidad de Columnas", required=True)
+    strip_width = fields.Float(string="Listones Traseros (mm)", required=True)
+    front_strip_width = fields.Float(string="Listón Frontal (mm)", required=True)
     strip_quantity = fields.Integer(string="Cantidad de Listones", required=True)
+    rack_adjust = fields.Boolean(string="Estante Movil?")
     rack_quantity = fields.Integer(string="Cantidad de Estantes", required=True)
     high = fields.Float (string="Alto", required=True)
     width = fields.Float (string="Ancho", required=True)
@@ -158,8 +162,22 @@ class Module(models.Model):
                         'top': True,
                         'bottom': True,
                     })
+                else:
+                    cuts.append({
+                        'name': f'Caja Listón F. - {record.name}',
+                        'quantity': record.front_strip_quantity,
+                        'wood': record.wood.id,
+                        'length': record.width - (record.wood.thickness * 2),
+                        'width': record.front_strip_width,
+                        'edge': record.edge.id,
+                        'left': False,
+                        'right': False,
+                        'top': True,
+                        'bottom': True,
+                    })
+
                 cuts.append({
-                    'name': f'Caja Liston - {record.name}',
+                    'name': f'Caja Liston T. - {record.name}',
                     'quantity': record.strip_quantity,
                     'wood': record.wood.id,
                     'length': record.width - (record.wood.thickness * 2),
@@ -170,19 +188,35 @@ class Module(models.Model):
                     'top': True,
                     'bottom': True,
                 })
-                if record.rack_quantity > 0:
+                if record.with_colum:
                     cuts.append({
-                        'name': f'Caja Est. - {record.name}',
-                        'quantity': record.rack_quantity,
+                        'name': f'Caja Colum - {record.name}',
+                        'quantity': record.colum_quantity,
                         'wood': record.wood.id,
-                        'length': record.width - (record.wood.thickness * 2),
-                        'width': record.depth - 40,
+                        'length': record.high - (record.wood.thickness * 2),
+                        'width': record.depth if record.line.background.background_type == "Sin Fondo" else record.depth - 40,
                         'edge': record.edge.id,
                         'left': False,
                         'right': False,
                         'top': True,
                         'bottom': True,
                     })
+                if record.rack_quantity > 0:
+                    if record.with_colum:
+                        l = record.width - (record.wood.thickness * record.colum_quantity) if not record.rack_adjust else (record.width - (record.wood.thickness * record.colum_quantity)) - 2,
+                        w = record.depth if record.line.background.background_type == "Sin Fondo" else record.depth - 40,
+                        cuts.append({
+                            'name': f'Caja Est. - {record.name}',
+                            'quantity': record.rack_quantity,
+                            'wood': record.wood.id,
+                            'length': l if l >= w else w,
+                            'width': w if w >= l else l,
+                            'edge': record.edge.id,
+                            'left': False,
+                            'right': False,
+                            'top': True,
+                            'bottom': True,
+                        })
         return cuts
 
     def _generate_drawer_cuts(self):
@@ -424,7 +458,7 @@ class Module(models.Model):
                     self.env['dekam.resume.edge'].create({
                         'module_id': record.id,
                         'edge_id': cut['edge'][0],
-                        'total_mt': cut['edgeMeters'] / 1000,  # Convertir mm a metros
+                        'total_mt': cut['edgeMeters'],  # Convertir mm a metros
                     })
 
     @api.depends('box_work_hours', 'total_hours_door', 'total_hours_box', 'total_hours_acce')

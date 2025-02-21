@@ -47,7 +47,7 @@
 							</group>
 							<group string="Madera">
 								<field name="is_lateral_wood"/>
-								<field name="lateral_wood" attrs="{'invisible': [('is_lateral_wood', '=', False)]}"/>
+								<field name="lateral_wood" />
 								<field name="floor_wood"/>
 								<field name="type_union_floor" attrs="{'invisible': [('is_lateral_wood', '=', False)]}"/>
 								<field name="edge_front"/>

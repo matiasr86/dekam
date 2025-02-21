@@ -41,4 +41,4 @@ class Cut(models.Model):
                 total += record.width * record.quantity
             if record.right:
                 total += record.width * record.quantity
-            record.edgeMeters = total
+            record.edgeMeters = total / 1000

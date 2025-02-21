@@ -51,6 +51,7 @@
                         <field name="length"/>
                         <field name="width"/>
                         <field name="squareMeters" readonly="1"/>
+                        <field name="wood"/>
                         <field name="edge"/>
                         <field name="module_id"/>
                     </group>
