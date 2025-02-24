@@ -197,24 +197,32 @@ class Module(models.Model):
                         'bottom': True,
                     })
                 if record.rack_quantity > 0:
-                    adjustment = 0
-                    if record.orientation == "horizontal":
-                        adjustment = 2
+                    adjustment = 20 if record.orientation == "horizontal" else 0
+
+                    # 🔹 Definir l y w sin importar si hay columnas o no
+                    l = record.width - (record.wood.thickness * 2)
+                    w = record.depth - 20 + adjustment if (record.line.background.background_type in ["Sin Fondo",
+                                                                                                 "Engrampado"]) else record.depth + adjustment - 40
+
                     if record.with_colum:
-                        l = record.width - (record.wood.thickness * record.colum_quantity) if not record.rack_adjust else (record.width - (record.wood.thickness * record.colum_quantity)) - 2
-                        w = record.depth + adjustment if (record.line.background.background_type == "Sin Fondo") or (record.line.background.background_type == "Engrampado") else record.depth - 40
-                        cuts.append({
-                            'name': f'Caja Est. - {record.name}',
-                            'quantity': record.rack_quantity,
-                            'wood': record.wood.id,
-                            'length': l if l >= w else w,
-                            'width': w if w >= l else l,
-                            'edge': record.edge.id,
-                            'left': False,
-                            'right': False,
-                            'top': True,
-                            'bottom': True,
-                        })
+                        l = record.width - (
+                                    record.wood.thickness * record.colum_quantity) if not record.rack_adjust else (
+                                                                                                                              record.width - (
+                                                                                                                                  record.wood.thickness * record.colum_quantity)) - 2
+
+                    cuts.append({
+                        'name': f'Caja Est. - {record.name}',
+                        'quantity': record.rack_quantity,
+                        'wood': record.wood.id,
+                        'length': max(l, w),  # Asegurar que length siempre sea mayor o igual que width
+                        'width': min(l, w),
+                        'edge': record.edge.id,
+                        'left': False,
+                        'right': False,
+                        'top': True,
+                        'bottom': True,
+                    })
+
         return cuts
 
     def _generate_drawer_cuts(self):
