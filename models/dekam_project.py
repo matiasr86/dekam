@@ -56,7 +56,6 @@ class Project(models.Model):
                             'right': cut.right,
                             'top': cut.top,
                             'bottom': cut.bottom,
-                            'grain': cut.grain,
                             'module_id': item.module_id.id,
                             'project_id': project.id
                         })
