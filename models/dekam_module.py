@@ -205,10 +205,12 @@ class Module(models.Model):
                                                                                                  "Engrampado"]) else record.depth + adjustment - 40
 
                     if record.with_colum:
-                        l = record.width - (
-                                    record.wood.thickness * record.colum_quantity) if not record.rack_adjust else (
-                                                                                                                              record.width - (
-                                                                                                                                  record.wood.thickness * record.colum_quantity)) - 2
+                        # 🔹 Calcular el espacio restante después de restar columnas
+                        espacio_restante = l - (record.wood.thickness * record.colum_quantity)
+                        # 🔹 Dividir en partes iguales entre columnas
+                        cantidad_espacios = record.colum_quantity + 1
+                        # 🔹 Aplicar ajuste si es necesario
+                        l = (espacio_restante / cantidad_espacios) - (2 if record.rack_adjust else 0)
 
                     cuts.append({
                         'name': f'Caja Est. - {record.name}',
