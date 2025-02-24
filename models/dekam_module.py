@@ -171,19 +171,18 @@ class Module(models.Model):
                         'top': True,
                         'bottom': True,
                     })
-
-                cuts.append({
-                    'name': f'Caja Liston T. - {record.name}',
-                    'quantity': record.strip_quantity,
-                    'wood': record.wood.id,
-                    'length': record.width - (record.wood.thickness * 2),
-                    'width': record.strip_width,
-                    'edge': record.edge.id,
-                    'left': False,
-                    'right': False,
-                    'top': True,
-                    'bottom': True,
-                })
+                    cuts.append({
+                        'name': f'Caja Liston T. - {record.name}',
+                        'quantity': record.strip_quantity,
+                        'wood': record.wood.id,
+                        'length': record.width - (record.wood.thickness * 2),
+                        'width': record.strip_width,
+                        'edge': record.edge.id,
+                        'left': False,
+                        'right': False,
+                        'top': True,
+                        'bottom': True,
+                    })
                 if record.with_colum:
                     cuts.append({
                         'name': f'Caja Colum - {record.name}',
@@ -198,9 +197,12 @@ class Module(models.Model):
                         'bottom': True,
                     })
                 if record.rack_quantity > 0:
+                    adjustment = 0
+                    if record.orientation == "horizontal":
+                        adjustment = 2
                     if record.with_colum:
                         l = record.width - (record.wood.thickness * record.colum_quantity) if not record.rack_adjust else (record.width - (record.wood.thickness * record.colum_quantity)) - 2
-                        w = record.depth if (record.line.background.background_type == "Sin Fondo") or (record.line.background.background_type == "Engrampado") else record.depth - 40
+                        w = record.depth + adjustment if (record.line.background.background_type == "Sin Fondo") or (record.line.background.background_type == "Engrampado") else record.depth - 40
                         cuts.append({
                             'name': f'Caja Est. - {record.name}',
                             'quantity': record.rack_quantity,
@@ -359,25 +361,22 @@ class Module(models.Model):
                     'bottom': True,
 
                 }
-
-                if record.orientation == 'vertical':
-                    base_cut['length'] = record.high - (door.door_id.edge.thickness * 2) - door.door_id.light_vertical
-                else:  # Horizontal
-                    base_cut['width'] = record.high - (door.door_id.edge.thickness * 2) - door.door_id.light_vertical
-
+                adjustment = 0
+                adjustment2 = 0
                 if door.door_id.elbow == 18:
                     adjustment = record.wood.thickness * 2
-                elif door.door_id.elbow == 0:
+                if door.door_id.elbow == 0:
                     adjustment = 0
-                else:
-                    adjustment = record.wood.thickness / 2
+                if door.door_id.elbow == 9:
+                    adjustment2 = record.wood.thickness / 2
 
                 if record.orientation == 'vertical':
-                    base_cut['width'] = (record.width - (
-                                door.door_id.edge.thickness * 2) - door.door_id.light_horizontal - adjustment) / door_quantity
-                else:
-                    base_cut['length'] = (record.width - (
-                                door.door_id.edge.thickness * 2) - door.door_id.light_horizontal - adjustment) / door_quantity
+                    base_cut['length'] = record.high - (door.door_id.edge.thickness * 2) - door.door_id.light_vertical - adjustment
+                    base_cut['width'] = (record.width / door_quantity) - (door.door_id.edge.thickness * 2) - door.door_id.light_horizontal - adjustment - adjustment2
+                else:  # Horizontal
+                    base_cut['length'] = record.width - (door.door_id.edge.thickness * 2) - door.door_id.light_horizontal - adjustment
+                    base_cut['width'] = (record.high / door_quantity) - (door.door_id.edge.thickness * 2) - door.door_id.light_vertical - adjustment - adjustment2
+
 
                 cuts.append(base_cut)
 

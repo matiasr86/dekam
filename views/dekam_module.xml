@@ -51,7 +51,7 @@
                                 <field name="strip_width"/>
                                 <field name="front_strip_width" attrs="{'invisible': [('complete_top', '=', True)]}"/>
                                 <field name="with_colum"/>
-                                <field name="colum_quantity"/>
+                                <field name="colum_quantity" attrs="{'invisible': [('with_colum', '=', False)]}"/>
                                 <field name="rack_adjust"/>
                                 <field name="rack_quantity"/>
                             </group>
