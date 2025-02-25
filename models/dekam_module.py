@@ -478,7 +478,8 @@ class Module(models.Model):
             workforce = self.env['dekam.workforce'].search([], limit=1)
             total_wood = sum(item.material_cost for item in record.resume_cut)
             total_edge = sum(item.edge_cost for item in record.resume_edge)
-            record.total_cost = (workforce.cost_per_hour * record.total_hours) + total_wood + total_edge
+            record.total_cost = (workforce.cost_per_hour * record.total_hours) + total_wood + total_edge + record.total_cost_material + record.total_cost_door + record.total_cost_box + record.total_accessorys
+
 
 
     def calculate_again(self):
