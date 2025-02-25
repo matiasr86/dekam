@@ -171,6 +171,7 @@ class Module(models.Model):
                         'top': True,
                         'bottom': True,
                     })
+                if record.strip_quantity > 0:
                     cuts.append({
                         'name': f'Caja Liston T. - {record.name}',
                         'quantity': record.strip_quantity,
@@ -401,8 +402,8 @@ class Module(models.Model):
                     'name': f'Fondo - {record.line.background.background_type}',
                     'quantity': 1,
                     'wood': record.line.background.wood.id,
-                    'length': record.high - 10 ,
-                    'width': record.width - (10 * 2),
+                    'length': record.width - (10 * 2),
+                    'width': record.high - (10 * 2) if record.complete_top else record.high - 10,
                 })
             elif record.line.background.background_type == "Engrampado":
                 cuts.append({
