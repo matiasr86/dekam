@@ -216,8 +216,8 @@ class Module(models.Model):
                         'name': f'Caja Est. - {record.name}',
                         'quantity': record.rack_quantity,
                         'wood': record.wood.id,
-                        'length': max(l, w),  # Asegurar que length siempre sea mayor o igual que width
-                        'width': min(l, w),
+                        'length': l,
+                        'width': w,
                         'edge': record.edge.id,
                         'left': False,
                         'right': False,
@@ -478,4 +478,11 @@ class Module(models.Model):
             total_wood = sum(item.material_cost for item in record.resume_cut)
             total_edge = sum(item.edge_cost for item in record.resume_edge)
             record.total_cost = (workforce.cost_per_hour * record.total_hours) + total_wood + total_edge
+
+
+    def calculate_again(self):
+        for record in self:
+            record._generate_resume()
+
+
 

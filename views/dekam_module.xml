@@ -21,6 +21,7 @@
                 <form string="Módulo">
                     <header>
                         <button name="create_cut_list" string="Generar Cortes" type="object" class="btn-primary" />
+                        <button name="calculate_again" string="Regenerar Resumen" type="object" class="btn-secondary" />
                     </header>
                     <sheet>
                         <group>
