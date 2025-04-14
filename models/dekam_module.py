@@ -342,7 +342,7 @@ class Module(models.Model):
                             'name': f'Cajon CF - {drawer.box.name}',
                             'quantity': 1 * drawer.quantity,
                             'wood': drawer.box.floor_wood.id,
-                            'length': record.width - (drawer.box.lateral_wood.thickness * 2) - drawer.box.back_facade_length,
+                            'length': record.width - (record.wood.thickness * 2) - drawer.box.back_facade_length,
                             'width': drawer.box.high,
                             'edge': drawer.box.edge_box.id,
                             'left': False,
