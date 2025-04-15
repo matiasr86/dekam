@@ -266,12 +266,12 @@ class Module(models.Model):
                             'length': record.width - (drawer.box.lateral_space * 2) - (drawer.box.edge_front.thickness * 2),
                             'width':  (record.high - drawer.box.top_space
                                       - drawer.box.between_box_space * (box_quantity - 1)
-                                      - (drawer.box.edge_front.thickness * 2)) / box_quantity
+                                      - (drawer.box.edge_front.thickness * 2 * box_quantity)) / box_quantity
                                       if not drawer.box.with_profile  # Usamos 'not' para mejor claridad
                                       else (record.high - drawer.box.top_space
                                             - (drawer.box.between_box_space * (box_quantity - 1))
-                                            - drawer.box.profile_size * box_quantity
-                                            - drawer.box.edge_front.thickness) / box_quantity,
+                                            - (drawer.box.profile_size * box_quantity)
+                                            - (drawer.box.edge_front.thickness * box_quantity)) / box_quantity,
                             'edge': drawer.box.edge_front.id,
                             'left': True,
                             'right': True,
