@@ -298,9 +298,9 @@ class Module(models.Model):
                             'name': f'Cajon Piso - {drawer.box.name}',
                             'quantity': 1 * drawer.quantity,
                             'wood': drawer.box.floor_wood.id,
-                            'length': record.width - (drawer.box.lateral_wood.thickness * 2) - drawer.box.slide_space
+                            'length': record.width - (record.wood.thickness * 2) - (drawer.box.lateral_wood.thickness * 2) - drawer.box.slide_space
                                         if drawer.box.type_union_floor == "doweled"
-                                        else record.width - (drawer.box.lateral_wood.thickness * 2) - drawer.box.slide_space + 12,
+                                        else record.width - (record.wood.thickness * 2) - (drawer.box.lateral_wood.thickness * 2) - drawer.box.slide_space + 12,
                             'width': drawer.box.depth - (drawer.box.lateral_wood.thickness * 2) - 1
                                         if drawer.box.type_union_floor == "doweled"
                                         else drawer.box.depth - (drawer.box.lateral_wood.thickness * 2) + 12,
